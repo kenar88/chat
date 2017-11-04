@@ -1,0 +1,34 @@
+.answer-form {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px 15px 10px;
+}
+
+.answer-form__text {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+  background-color: transparent;
+  padding: 5px;
+  resize: none;
+  height: 34px;
+  max-height: 100px;
+}
+
+.answer-form__btn {
+  align-self: flex-end;
+  flex-flow: 0;
+  margin: 0 0 0 10px;
+  font-size: 0;
+  width: 32px;
+  height: 34px;
+  border: none;
+  border-radius: 0;
+  background-image: url("../img/icon-send.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
