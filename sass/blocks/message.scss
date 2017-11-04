@@ -20,12 +20,12 @@
 .message--user {
   align-self: flex-end;
   border-radius: 5px 5px 0 5px;
-  &::before {
-    left: auto;
-    right: 0;
-    border-right: none;
-    border-left: 15px solid transparent;
-  }
+    &::before {
+      left: auto;
+      right: 0;
+      border-right: none;
+      border-left: 15px solid transparent;
+    }
 }
 
 .message__text {
