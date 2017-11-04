@@ -1,6 +1,6 @@
 'use strict'
 
-// Динамическое изменение высоты <textarea> под контент
+// Автоматическое изменение высоты <textarea>
 
 const textareaResize = (event, lineHeight, minLineCount) => {
   const minLineHeight = minLineCount * lineHeight,

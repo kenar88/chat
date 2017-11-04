@@ -2,12 +2,14 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  padding: 15px 10px 15px 10px;
+  padding: 15px 0 15px 0;
   max-width: 100%;
+
+  overflow: hidden;
 }
 
 .answer-form__text {
-  flex-grow: 1;
+  // flex-grow: 1;
   border: none;
   outline: none;
   font-family: "Verdana", "Arial", sans-serif;
@@ -18,23 +20,17 @@
   padding: 5px;
   resize: none;
   height: 34px;
-
   overflow: hidden;
+  width: 80%;
+  margin: 0 0 0 10px;
+
+  // max-height: 150px;
 }
 
-// Стилицация элементов помощников для динамического изменения размера <textarea>
+// Стилицация элемента для автоматического изменения высоты <textarea>
 
-.answer-form__div-help {
+#answer-form__text-div {
   visibility: hidden;
-  position: absolute;
-  display: flex;
-  left: 10px;
-  right: 10px;
-  top: -60px;
-}
-
-.answer-form__div-textarea {
-  flex-grow: 1;
   font-size: 14px;
   line-height: 24px;
   color: #fff;
@@ -42,24 +38,26 @@
   padding: 5px;
   white-space: pre-wrap;
   word-wrap: break-word;
-}
 
-.answer-form__div-btn {
-  flex-flow: 0;
-  margin: 0 0 0 10px;
-  min-width: 32px;
-  height: 34px;
-  background-color: lightseagreen;
+  position: absolute;
+  left: 10px;
+  top: -60px;
+  min-height: 34px;
+
+  // max-height: 150px;
+  // overflow-y: scroll;
+
+  width: 80%;
 }
 // --- --- ---
 
 .answer-form__btn {
   align-self: flex-end;
   flex-flow: 0;
-  margin: 0 0 0 10px;
   font-size: 0;
   width: 32px;
   height: 34px;
+  margin: 0 10px 0 0;
   border: none;
   border-radius: 0;
   background-image: url("../img/icon-send.svg");

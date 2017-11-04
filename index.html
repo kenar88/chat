@@ -54,11 +54,8 @@
       <form class="chat__answer  answer-form" action="" method="post">
         <textarea class="answer-form__text" id="answer-form__text" placeholder="Type message..." autofocus onkeyup="textareaResize(event, 24, 1);"></textarea>
 
-        <!-- Элементы необходимы для изменения высоты <textarea> под контент -->
-        <div class="answer-form__div-help">
-          <div class="answer-form__div-textarea" id="answer-form__text-div"></div>
-          <div class="answer-form__div-btn"></div>
-        </div>
+        <!-- Элемент для автоматического изменения высоты <textarea> -->
+        <div id="answer-form__text-div"></div>
         <!-- *** -->
 
         <button class="answer-form__btn  btn" type="sumbit">Send</button>
