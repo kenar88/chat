@@ -18,6 +18,6 @@ const textareaResize = (event, lineHeight, minLineCount) => {
   }
 
   obj.style.height = objHeight + 'px';
-}
+};
 // --- --- ---
 
