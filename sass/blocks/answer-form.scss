@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
+  flex-shrink: 0;
   padding: 15px 0 15px 0;
   max-width: 100%;
 
@@ -9,7 +10,6 @@
 }
 
 .answer-form__text {
-  // flex-grow: 1;
   border: none;
   outline: none;
   font-family: "Verdana", "Arial", sans-serif;
@@ -34,14 +34,14 @@
   font-size: 14px;
   line-height: 24px;
   color: #fff;
-  background-color: lightcoral;
+  background-color: rgb(146, 78, 78);
   padding: 5px;
   white-space: pre-wrap;
   word-wrap: break-word;
 
   position: absolute;
   left: 10px;
-  top: -60px;
+  top: -200px;
   min-height: 34px;
 
   // max-height: 150px;
