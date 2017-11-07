@@ -1,5 +1,7 @@
 'use strict'
 
+// Навигация:
+
 // Очистка главного окна чата
 const clearChatWindow = () => {
   const chatWindow = document.querySelector('.chat__window'),
@@ -32,6 +34,17 @@ const roomActive = (event) => {
   }
 };
 
+// ----    ----    ----    ----    ----
+//     ----    ----    ----    ----
+
+
+
+
+
+// Сообщения:
+const answerForm = document.querySelector('.answer-form'),
+      sendMessage = answerForm.querySelector('.answer-form__btn'),
+      answerText = answerForm.querySelector('.answer-form__text');
 
 // Конструктор сообщений
 function Messsage(text) {
@@ -45,10 +58,6 @@ function Messsage(text) {
 
   return message;
 };
-
-const answerForm = document.querySelector('.answer-form'),
-      sendMessage = answerForm.querySelector('.answer-form__btn'),
-      answerText = answerForm.querySelector('.answer-form__text');
 
 // Рендеринг сообщений
 const renderMessage = (event) => {
@@ -76,6 +85,15 @@ const renderMessage = (event) => {
   answerText.focus();
   answerText.setAttribute('placeholder', 'Type message...');
 };
+
+// ----    ----    ----    ----    ----
+//     ----    ----    ----    ----
+
+
+
+
+
+// Форма отправки сообщения:
 
 // Автоматическое изменение высоты <textarea>
 const textareaResize = (event, lineHeight, minLineCount) => {
@@ -121,3 +139,6 @@ const keydownEnter = (event) => {
 answerForm.addEventListener('submit', renderMessage);
 answerText.addEventListener('keyup', keyupEnter);
 answerText.addEventListener('keydown', keydownEnter);
+
+// ----    ----    ----    ----    ----
+//     ----    ----    ----    ----
