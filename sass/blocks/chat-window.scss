@@ -1,22 +1,21 @@
 .chat-window {
-  border: 1px solid #fff;
   background-color: rgba(0, 0, 0, 0.3);
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   
-  position: relative;
+  // position: relative;
   overflow-y: scroll;
 }
 
 .chat-window__item {
-  position: absolute;
+  // position: absolute;
   visibility: hidden;
   display: none;
 }
 
 .chat-window__item--active {
-  position: static;
+  // position: static;
   visibility: visible;
   display: flex;
   flex-grow: 1;

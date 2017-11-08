@@ -16,8 +16,8 @@
         </form>
 
         <ul class="main-nav__tabs">
-          <li class="tab  tab--active"  id="all-tabs">
-            <img class="tab__icon" src="" alt="">
+          <li class="tab  tab--all-tabs  tab--active"  id="all-tabs">
+            <img class="tab__icon" src="img/group.svg" alt="icon-all-tabs">
             <h3 class="tab__name">All rooms</h3>
           </li>
           <li>
@@ -25,20 +25,20 @@
             <ul class="main-nav__user-rooms">
 
               <li class="tab  room" id="11" >
-                <img class="tab__icon  room__avatar" src="img/icon-room.svg" alt="avatar room">
+                <img class="tab__icon  room__avatar" src="img/pic.svg" alt="avatar room">
                 <h3 class="tab__name  room__name">Title room</h3>
               </li>
     
               <li class="tab  room" id="12" >
-                <img class="tab__icon  room__avatar" src="img/icon-room.svg" alt="avatar room">
+                <img class="tab__icon  room__avatar" src="img/pic.svg" alt="avatar room">
                 <h3 class="tab__name  room__name">Title room</h3>
               </li>
     
             </ul>
           </li>
-          <li class="tab  main-nav__options">
-            <img class="tab__icon" src="" alt="">
-            <h3 class="tab__name">Options</h3>
+          <li class="tab  tab--settings" id="settings">
+            <img class="tab__icon" src="img/settings.svg" alt="icon-settings">
+            <h3 class="tab__name">Settings</h3>
           </li>
         </ul>
       </nav>
@@ -46,19 +46,37 @@
       <div class="chat__wrapper">
         <button class="chat__back-btn  btn"  id="back-btn">Back</button>
 
-        <section class="chat__window  chat-window" id="chat-window">
+        <section class="chat-window" id="chat-window">
 
           <section class="chat-window__item  chat-window__item--active" id="item-all-tabs">
             <h2>All Rooms</h2>
           </section>
 
+          <section class="chat-window__item" id="item-settings">
+            <h2>Settings</h2>
+          </section>
+
           <section class="chat-window__item  thread" id="item-11">
             <section class="message  message--user">
               <p class="message__text">Hello Thread 1</p>
+              <span class="message__time">11:20</span>
             </section>
             <section class="message">
               <p class="message__text">Bye Thread 1</p>
             </section>
+
+            <form class="chat__answer  answer-form" id="form-11" method="post">
+              <label class="answer-form__file-label  btn">
+                <input class="answer-form__file" type="file">
+              </label>
+
+              <textarea class="answer-form__text" id="textarea-11" placeholder="Type message..." autofocus></textarea>
+    
+              <!-- Элемент для авто-изменения высоты <textarea> -->
+              <div class="answer-div" id="textarea-11-div"></div>
+
+              <button class="answer-form__btn  btn" type="submit">Send</button>
+            </form>
           </section>
 
           <section class="chat-window__item  thread" id="item-12">
@@ -68,20 +86,24 @@
               <section class="message">
                 <p class="message__text">Bye Thread 2</p>
               </section>
+
+              <form class="chat__answer  answer-form" id="form-12" method="post">
+                <label class="answer-form__file-label  btn">
+                  <input class="answer-form__file" type="file">
+                </label>
+
+                <textarea class="answer-form__text" id="textarea-12" placeholder="Type message..." autofocus></textarea>
+      
+                <!-- Элемент для авто-изменения высоты <textarea> -->
+                <div class="answer-div" id="textarea-12-div"></div>
+
+                <button class="answer-form__btn  btn" type="submit">Send</button>
+              </form>
           </section>
+
+          
           
         </section>
-
-        <form class="chat__answer  answer-form" action="" method="post">
-          <textarea class="answer-form__text" id="answer-form__text" placeholder="Type message..." autofocus></textarea>
-
-          <!-- Элемент для автоматического изменения высоты <textarea> -->
-          <div id="answer-form__text-div"></div>
-          <!-- *** -->
-
-          <button class="answer-form__btn  btn" type="submit">Send</button>
-        </form>
-
       </div>
     </section>
 

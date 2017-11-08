@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  padding: 0 0 0 20px;
 }
 
 .main-nav__tabs {
@@ -19,7 +20,7 @@
 }
 
 .main-nav__title {
-  margin: 15px 10px 10px 10px;
+  margin: 35px 10px 25px 20px;
   font-size: 18px;
   line-height: 18px;
   font-weight: 400;
@@ -27,14 +28,9 @@
 
 .main-nav__user-rooms {
   @include reset-list;
-  // border: 1px solid #fff;
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.main-nav__options {
-  margin: auto 0 0 0;
 }
 
 @media ($mobile-widths-only) {

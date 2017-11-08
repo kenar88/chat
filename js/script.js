@@ -66,6 +66,7 @@ for (let i = 0; i < allTabs.length; i++) {
 // Конструктор сообщений
 function Messsage(roomId, text) {
   const message = document.createElement('section'),
+        timeMessage = document.createElement('span'),
         textMessage = document.createElement('p');
 
   this.data = {
@@ -77,42 +78,62 @@ function Messsage(roomId, text) {
   };
   this.render = function(elem) {
     message.className = 'message message--user';
+    timeMessage.className = 'message__time';
     textMessage.className = 'message__text';
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    };
+    timeMessage.textContent = new Date().toLocaleString('ru', options);
+    console.log(timeMessage);
     textMessage.textContent = text;
     message.appendChild(textMessage);
-    elem.appendChild(message);
+    message.appendChild(timeMessage);
+    elem.before(message);
   };
 };
 
 // Отправка сообщений
 const sendMessage = (event) => {
-  // Отменяем стандартное поведение <form> при submit
+  // Отменяем стандартное поведение <form> при клике на кнопку
   event.preventDefault();
 
-  // Определяем активный элемент окна чата
-  const thread = document.querySelector('.chat-window__item--active');
+  // Определяем активный чат
+  const thread = document.querySelector('.chat-window__item--active'),
+        threadId = thread.id,
+        threadForm = thread.querySelector('.answer-form'),
+        threadFormText = threadForm.querySelector('.answer-form__text');
 
   // Отслеживаем ввел ли пользователь текст сообщения
-  if (!answerText.value || !answerText.value.trim() ) {
-    answerText.value = '';
-    return answerText.setAttribute('placeholder', 'Enter the message...');
+  if (!threadFormText.value || !threadFormText.value.trim() ) {
+    threadFormText.value = '';
+    return threadFormText.setAttribute('placeholder', 'Enter the message...');
+  }
+
+  // Получаем id чата
+  let tabId = ''; 
+  for (let i = 0; i < threadId.length; i++) {
+    if (!isNaN(threadId[i]) ) {
+      tabId += threadId[i];
+    }
   }
 
   // Создаём сообщение
-  const message = new Messsage(123, answerText.value);
+  const message = new Messsage(tabId, threadFormText.value);
 
   // Отправка сообщения на сервер
   // connection.send(JSON.stringify(message.data));
 
   // Рендерим сообщение в активном элементе окна чата
-  message.render(thread);
+  message.render(threadForm);
 
   // Прокручиваем скроллбар вниз
   chatWindow.scrollTop = chatWindow.scrollHeight;
   // Сбрасываем содержимое формы до исходного состояния
-  answerText.setAttribute('placeholder', 'Type message...');
-  answerText.value = '';
-  answerText.focus();
+  threadFormText.setAttribute('placeholder', 'Type message...');
+  threadFormText.value = '';
+  threadFormText.focus();
 };
 
 // ----    ----    ----    ----    ----
@@ -124,6 +145,9 @@ const sendMessage = (event) => {
 
 // Форма отправки сообщения:
 
+const allAnswerForm = document.getElementsByClassName('answer-form'),
+      allAnswerBtn = document.getElementsByClassName('answer-form__btn');
+
 // Автоматическое изменение высоты <textarea>
 const textareaResize = (event, lineHeight, minLineCount) => {
   const minLineHeight = minLineCount * lineHeight,
@@ -131,6 +155,9 @@ const textareaResize = (event, lineHeight, minLineCount) => {
         div = document.getElementById(elem.id + '-div');
 
   div.innerHTML = elem.value;
+  div.style.width = elem.offsetWidth + 'px';
+
+
 
   let elemHeight = div.offsetHeight;
 
@@ -152,7 +179,7 @@ const keyupEnter = (event) => {
     sendMessage(event);
   }
   if (event.ctrlKey && event.keyCode == 13) {
-    answerText.value += '\n';
+    event.target.value += '\n';
   }
 
   textareaResize(event, 24, 1);
@@ -165,9 +192,14 @@ const keydownEnter = (event) => {
   }
 };
 
-answerForm.addEventListener('submit', sendMessage);
-answerText.addEventListener('keyup', keyupEnter);
-answerText.addEventListener('keydown', keydownEnter);
+// Добавим обработчики всем формам и кнопкам
+for (let i = 0; i < allAnswerForm.length; i++) {
+  allAnswerForm[i].onkeyup = keyupEnter;
+  allAnswerForm[i].onkeydown = keydownEnter;
+}
+for (let i = 0; i < allAnswerBtn.length; i++) {
+  allAnswerBtn[i].onclick = sendMessage;
+}
 
 // ----    ----    ----    ----    ----
 //     ----    ----    ----    ----
