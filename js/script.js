@@ -1,38 +1,58 @@
 'use strict'
 
+// Глобальные переменные
+
+const chat = document.getElementById('chat'),
+      menu = document.getElementById('main-nav'),
+      menuTabList = menu.querySelector('.main-nav__tabs'),
+      innerChatWrapper = chat.querySelector('.chat__wrapper'),
+      backBtn = document.getElementById('back-btn'),
+      chatWindow = document.getElementById('chat-window');
+
+const answerForm = document.querySelector('.answer-form'),
+      answerBtn = answerForm.querySelector('.answer-form__btn'),
+      answerText = answerForm.querySelector('.answer-form__text');
+
 // Навигация:
 
-// Очистка главного окна чата
-const clearChatWindow = () => {
-  const chatWindow = document.querySelector('.chat__window'),
-        chatWindowContents = chatWindow.children;
+const allTabs = menuTabList.querySelectorAll('.tab'),
+      allWindowItems = chatWindow.querySelectorAll('.chat-window__item');
 
-  for (let i = 0; i < chatWindowContents.length; i++) {
-    let elem = chatWindowContents[i];
+// Включение и выключение вкладок
+const toggleTabs = (event) => {
+  const requiredWindowItem = document.getElementById('item-' + event.currentTarget.id);
 
-    for (let k = 0; k < elem.classList.length; k++) {
-      if (elem.classList.contains(elem.classList[k] + '--active') ) {
-        elem.classList.remove(elem.classList[k] + '--active');
-      }
+  if (allTabs.length || allWindowItems.length) {
+    for (let i = 0; i < allWindowItems.length; i++) {
+      allWindowItems[i].classList.remove('chat-window__item--active');
+    }
+    for (let i = 0; i < allTabs.length; i++) {
+      allTabs[i].classList.remove('tab--active');
     }
   }
+
+  event.currentTarget.classList.add('tab--active');
+  requiredWindowItem.classList.add('chat-window__item--active');
+  // Убираем класс активного состояния у главного меню (работает только на мобильной версии)
+  menu.classList.remove('main-nav--active');
+  // И добавляем обёртке окна чата
+  innerChatWrapper.classList.add('chat__wrapper--active');
+  answerText.focus();
 };
 
-// Переключение комнат
-const roomActive = (event) => {
-  const room = event.currentTarget,
-        thread = document.getElementById('thread-' + room.id),
-        threadActive = document.getElementsByClassName('thread--active');
-
-  if (thread.classList.contains('thread--active') ) {
-    thread.classList.remove('thread--active');
-  } else {
-    clearChatWindow();
-    thread.classList.add('thread--active');
-    thread.setAttribute('data-state', 'active');
-    answerText.focus();
-  }
+// Функция возврата назад для мобильной версии
+const returnBack = () => {
+  menu.classList.toggle('main-nav--active');
+  innerChatWrapper.classList.toggle('chat__wrapper--active');  
 };
+
+// Добавим обработчик кнопке "Назад"
+backBtn.onclick = returnBack;
+
+// Добавим обработчик клика каждой вкладке
+for (let i = 0; i < allTabs.length; i++) {
+  allTabs[i].onclick = toggleTabs;
+}
 
 // ----    ----    ----    ----    ----
 //     ----    ----    ----    ----
@@ -42,48 +62,57 @@ const roomActive = (event) => {
 
 
 // Сообщения:
-const answerForm = document.querySelector('.answer-form'),
-      sendMessage = answerForm.querySelector('.answer-form__btn'),
-      answerText = answerForm.querySelector('.answer-form__text');
 
 // Конструктор сообщений
-function Messsage(text) {
+function Messsage(roomId, text) {
   const message = document.createElement('section'),
         textMessage = document.createElement('p');
 
-  message.className = 'message message--user';
-  textMessage.className = 'message__text';
-  textMessage.textContent = text;
-  message.appendChild(textMessage);
-
-  return message;
+  this.data = {
+        "method": "sendMessage",
+        "room_id": roomId,
+        "message": {
+          "text": text
+        } 
+  };
+  this.render = function(elem) {
+    message.className = 'message message--user';
+    textMessage.className = 'message__text';
+    textMessage.textContent = text;
+    message.appendChild(textMessage);
+    elem.appendChild(message);
+  };
 };
 
-// Рендеринг сообщений
-const renderMessage = (event) => {
+// Отправка сообщений
+const sendMessage = (event) => {
+  // Отменяем стандартное поведение <form> при submit
   event.preventDefault();
 
+  // Определяем активный элемент окна чата
+  const thread = document.querySelector('.chat-window__item--active');
+
+  // Отслеживаем ввел ли пользователь текст сообщения
   if (!answerText.value || !answerText.value.trim() ) {
     answerText.value = '';
     return answerText.setAttribute('placeholder', 'Enter the message...');
   }
 
-  const thread = document.getElementsByClassName('thread--active')[0],             chatWindow = document.querySelector('.chat__window'),
-        message = new Messsage(answerText.value);
-  
-  // const message = document.createElement('section');
-  // message.className = 'message message--user';
+  // Создаём сообщение
+  const message = new Messsage(123, answerText.value);
 
-  // const textMessage = document.createElement('p');
-  // textMessage.className = 'message__text';
-  // textMessage.textContent = answerText.value;
-  // message.appendChild(textMessage);
+  // Отправка сообщения на сервер
+  // connection.send(JSON.stringify(message.data));
 
-  thread.appendChild(message);
+  // Рендерим сообщение в активном элементе окна чата
+  message.render(thread);
+
+  // Прокручиваем скроллбар вниз
   chatWindow.scrollTop = chatWindow.scrollHeight;
+  // Сбрасываем содержимое формы до исходного состояния
+  answerText.setAttribute('placeholder', 'Type message...');
   answerText.value = '';
   answerText.focus();
-  answerText.setAttribute('placeholder', 'Type message...');
 };
 
 // ----    ----    ----    ----    ----
@@ -120,7 +149,7 @@ const textareaResize = (event, lineHeight, minLineCount) => {
 const keyupEnter = (event) => {
   if (!event.ctrlKey && event.keyCode == 13) {
     event.preventDefault();
-    renderMessage(event);
+    sendMessage(event);
   }
   if (event.ctrlKey && event.keyCode == 13) {
     answerText.value += '\n';
@@ -136,7 +165,7 @@ const keydownEnter = (event) => {
   }
 };
 
-answerForm.addEventListener('submit', renderMessage);
+answerForm.addEventListener('submit', sendMessage);
 answerText.addEventListener('keyup', keyupEnter);
 answerText.addEventListener('keydown', keydownEnter);
 

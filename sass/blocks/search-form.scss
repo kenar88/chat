@@ -1,0 +1,25 @@
+.search-form {
+  position: relative;
+  display: flex;
+  padding: 15px 10px 15px 10px;
+}
+
+.search-form__input {
+  flex-grow: 1;
+  border: none;
+  border-bottom: 2px solid #fff;
+  outline: none;
+  padding: 5px;
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+  background-color: transparent;
+}
+
+.search-form__btn {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  padding: 0;
+}

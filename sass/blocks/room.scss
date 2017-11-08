@@ -1,41 +1,29 @@
-.room {
-  // border: 1px solid green;
-  display: flex;
-  align-items: center;
-  margin: 0 5px 8px 0;
-  max-width: 92px;
-  max-height: 35px;
-  cursor: pointer;
-}
+// .room {
+//   // border: 1px solid green;
+//   display: flex;
+//   align-items: center;
+//   padding: 5px 5px 5px 5px;
+//   cursor: pointer;
+// }
 
-.room__avatar {
-  width: 35px;
-  height: 35px;
-  border: 2px solid white;
-  border-radius: 50%;
-}
+// .room__avatar {
+//   width: 48px;
+//   height: 48px;
+//   border: 2px solid white;
+//   border-radius: 50%;
+// }
 
-.room__name {
-  margin: 0 0 0 5px;
-  padding: 5px 0;
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: 400;
-  text-align: center;
-  max-height: 35px;
-  // white-space: nowrap;
-  overflow: hidden;
-  // text-overflow: ellipsis; 
-}
+// .room__name {
+//   margin: 0 0 0 10px;
+//   font-size: 14px;
+//   line-height: 24px;
+//   font-weight: 400;
+// }
 
 @media ($tablet-widths) {
-  .room {
-    max-width: 118px;
-  }
+
 }
 
 @media ($desktop-widths) {
-  .room {
-    max-width: 128px;
-  }
+
 }

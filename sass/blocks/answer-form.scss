@@ -20,11 +20,11 @@
   padding: 5px;
   resize: none;
   height: 34px;
-  overflow: hidden;
+  // overflow: hidden;
   width: 80%;
   margin: 0 0 0 10px;
 
-  // max-height: 150px;
+  max-height: 50vh;
 }
 
 // Стилицация элемента для автоматического изменения высоты <textarea>

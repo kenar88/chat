@@ -1,0 +1,56 @@
+.main-nav {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.main-nav__tabs {
+  flex-grow: 1;
+  @include reset-list;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 15px 0;
+}
+
+.main-nav__tab {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.main-nav__title {
+  margin: 15px 10px 10px 10px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.main-nav__user-rooms {
+  @include reset-list;
+  // border: 1px solid #fff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.main-nav__options {
+  margin: auto 0 0 0;
+}
+
+@media ($mobile-widths-only) {
+  .main-nav {
+    display: none;
+  }
+
+  .main-nav--active {
+    display: flex;
+  }
+}
+
+@media ($tablet-widths) {
+
+}
+  
+@media ($desktop-widths) {
+  
+}

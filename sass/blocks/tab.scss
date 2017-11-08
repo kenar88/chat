@@ -1,0 +1,25 @@
+.tab {
+  // border: 1px solid green;
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 5px 5px;
+  cursor: pointer;
+}
+
+.tab--active {
+  background-color: red;
+}
+
+.tab__icon {
+  width: 48px;
+  height: 48px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+
+.tab__name {
+  margin: 0 0 0 10px;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+}

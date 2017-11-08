@@ -8,69 +8,82 @@
   </head>
 
   <body>
-    <section class="chat">
-      <nav class="chat__nav">
-        <ul class="chat__user-rooms">
+    <section class="chat" id="chat">
+      <nav class="chat__nav  main-nav  main-nav--active" id="main-nav">
+        <form action="" class="main-nav__search  search-form">
+          <input class="search-form__input" type="text" placeholder="Search">
+          <button class="search-form__btn  btn" type="submit">Search</button>
+        </form>
 
-          <li class="room" id="1" onclick="roomActive(event);">
-            <img class="room__avatar" src="img/icon-room.svg" alt="avatar room">
-            <h2 class="room__name">Title room</h2>
+        <ul class="main-nav__tabs">
+          <li class="tab  tab--active"  id="all-tabs">
+            <img class="tab__icon" src="" alt="">
+            <h3 class="tab__name">All rooms</h3>
           </li>
+          <li>
+            <h2 class="main-nav__title">User rooms</h2>
+            <ul class="main-nav__user-rooms">
 
-          <li class="room" id="2" onclick="roomActive(event);">
-            <img class="room__avatar" src="img/icon-room.svg" alt="avatar room">
-            <h2 class="room__name">Title room</h2>
+              <li class="tab  room" id="11" >
+                <img class="tab__icon  room__avatar" src="img/icon-room.svg" alt="avatar room">
+                <h3 class="tab__name  room__name">Title room</h3>
+              </li>
+    
+              <li class="tab  room" id="12" >
+                <img class="tab__icon  room__avatar" src="img/icon-room.svg" alt="avatar room">
+                <h3 class="tab__name  room__name">Title room</h3>
+              </li>
+    
+            </ul>
           </li>
-
-          <li class="room" id="3" onclick="roomActive(event);">
-            <img class="room__avatar" src="img/icon-room.svg" alt="avatar room">
-            <h2 class="room__name">Title room very long</h2>
+          <li class="tab  main-nav__options">
+            <img class="tab__icon" src="" alt="">
+            <h3 class="tab__name">Options</h3>
           </li>
         </ul>
       </nav>
 
-      <section class="chat__window">
-        <section class="thread" id="thread-1">
+      <div class="chat__wrapper">
+        <button class="chat__back-btn  btn"  id="back-btn">Back</button>
 
-          <section class="message  message--user">
-            <p class="message__text">Hello Thread 1</p>
+        <section class="chat__window  chat-window" id="chat-window">
+
+          <section class="chat-window__item  chat-window__item--active" id="item-all-tabs">
+            <h2>All Rooms</h2>
           </section>
-          <section class="message">
-            <p class="message__text">Bye Thread 1</p>
-          </section>
 
-        </section>
-
-        <section class="thread" id="thread-2">
+          <section class="chat-window__item  thread" id="item-11">
             <section class="message  message--user">
-              <p class="message__text">Hello Thread 2</p>
+              <p class="message__text">Hello Thread 1</p>
             </section>
             <section class="message">
-              <p class="message__text">Bye Thread 2</p>
+              <p class="message__text">Bye Thread 1</p>
             </section>
+          </section>
+
+          <section class="chat-window__item  thread" id="item-12">
+              <section class="message  message--user">
+                <p class="message__text">Hello Thread 2</p>
+              </section>
+              <section class="message">
+                <p class="message__text">Bye Thread 2</p>
+              </section>
+          </section>
+          
         </section>
 
-        <section class="thread" id="thread-3">
-            <section class="message  message--user">
-              <p class="message__text">Hello Thread 3</p>
-            </section>
-            <section class="message">
-              <p class="message__text">Bye Thread 3</p>
-            </section>
-        </section>
-      </section>
+        <form class="chat__answer  answer-form" action="" method="post">
+          <textarea class="answer-form__text" id="answer-form__text" placeholder="Type message..." autofocus></textarea>
 
-      <form class="chat__answer  answer-form" action="" method="post">
-        <textarea class="answer-form__text" id="answer-form__text" placeholder="Type message..." autofocus></textarea>
+          <!-- Элемент для автоматического изменения высоты <textarea> -->
+          <div id="answer-form__text-div"></div>
+          <!-- *** -->
 
-        <!-- Элемент для автоматического изменения высоты <textarea> -->
-        <div id="answer-form__text-div"></div>
-        <!-- *** -->
+          <button class="answer-form__btn  btn" type="submit">Send</button>
+        </form>
 
-        <button class="answer-form__btn  btn" type="submit">Send</button>
-      </form>
+      </div>
     </section>
-
 
     <script src="js/script.js"></script>
   </body>
