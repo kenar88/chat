@@ -1,0 +1,13 @@
+.window {
+  display: none;
+}
+
+.window--active {
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  overflow-y: scroll;
+
+}

@@ -9,102 +9,102 @@
 
   <body>
     <section class="chat" id="chat">
-      <nav class="chat__nav  main-nav  main-nav--active" id="main-nav">
-        <form action="" class="main-nav__search  search-form">
-          <input class="search-form__input" type="text" placeholder="Search">
-          <button class="search-form__btn  btn" type="submit">Search</button>
-        </form>
+      <nav class="main-menu  main-menu--active" id="main-menu">
+        <section class="tab  main-menu__threads  tab--active" id="threads">
+          <img class="tab__img" src="img/group.svg" alt="img">
+          <h3 class="tab__title">Threads</h3>
+        </section>
 
-        <ul class="main-nav__tabs">
-          <li class="tab  tab--all-tabs  tab--active"  id="all-tabs">
-            <img class="tab__icon" src="img/group.svg" alt="icon-all-tabs">
-            <h3 class="tab__name">All rooms</h3>
-          </li>
-          <li>
-            <h2 class="main-nav__title">User rooms</h2>
-            <ul class="main-nav__user-rooms">
+        <h2 class="main-menu__title">Opened Threads</h2>
+        <div class="main-menu__opened-threads">
+          <section class="tab  thread" id="100">
+            <img class="tab__img" src="img/pic.svg" alt="img">
+            <h3 class="tab__title">Thread 1</h3>
+          </section>
 
-              <li class="tab  room" id="11" >
-                <img class="tab__icon  room__avatar" src="img/pic.svg" alt="avatar room">
-                <h3 class="tab__name  room__name">Title room</h3>
-              </li>
-    
-              <li class="tab  room" id="12" >
-                <img class="tab__icon  room__avatar" src="img/pic.svg" alt="avatar room">
-                <h3 class="tab__name  room__name">Title room</h3>
-              </li>
-    
-            </ul>
-          </li>
-          <li class="tab  tab--settings" id="settings">
-            <img class="tab__icon" src="img/settings.svg" alt="icon-settings">
-            <h3 class="tab__name">Settings</h3>
-          </li>
-        </ul>
+          <section class="tab  thread" id="101">
+            <img class="tab__img" src="img/pic.svg" alt="img">
+            <h3 class="tab__title">Thread 2</h3>
+          </section>
+        </div>
+
+        <section class="tab  main-menu__settings" id="settings">
+          <img class="tab__img" src="img/settings.svg" alt="img">
+          <h3 class="tab__title">Settings</h3>
+        </section>
       </nav>
 
-      <div class="chat__wrapper">
-        <button class="chat__back-btn  btn"  id="back-btn">Back</button>
+      <section class="workspace" id="workspace">
+        <button class="workspace__back-btn" type="button">Back</button>
 
-        <section class="chat-window" id="chat-window">
-
-          <section class="chat-window__item  chat-window__item--active" id="item-all-tabs">
-            <h2>All Rooms</h2>
-          </section>
-
-          <section class="chat-window__item" id="item-settings">
-            <h2>Settings</h2>
-          </section>
-
-          <section class="chat-window__item  thread" id="item-11">
-            <section class="message  message--user">
-              <p class="message__text">Hello Thread 1</p>
-              <span class="message__time">11:20</span>
-            </section>
-            <section class="message">
-              <p class="message__text">Bye Thread 1</p>
-            </section>
-
-            <form class="chat__answer  answer-form" id="form-11" method="post">
-              <label class="answer-form__file-label  btn">
-                <input class="answer-form__file" type="file">
-              </label>
-
-              <textarea class="answer-form__text" id="textarea-11" placeholder="Type message..." autofocus></textarea>
-    
-              <!-- Элемент для авто-изменения высоты <textarea> -->
-              <div class="answer-div" id="textarea-11-div"></div>
-
-              <button class="answer-form__btn  btn" type="submit">Send</button>
-            </form>
-          </section>
-
-          <section class="chat-window__item  thread" id="item-12">
-              <section class="message  message--user">
-                <p class="message__text">Hello Thread 2</p>
-              </section>
-              <section class="message">
-                <p class="message__text">Bye Thread 2</p>
-              </section>
-
-              <form class="chat__answer  answer-form" id="form-12" method="post">
-                <label class="answer-form__file-label  btn">
-                  <input class="answer-form__file" type="file">
-                </label>
-
-                <textarea class="answer-form__text" id="textarea-12" placeholder="Type message..." autofocus></textarea>
-      
-                <!-- Элемент для авто-изменения высоты <textarea> -->
-                <div class="answer-div" id="textarea-12-div"></div>
-
-                <button class="answer-form__btn  btn" type="submit">Send</button>
-              </form>
-          </section>
-
-          
-          
+        <section class="window  window--threads  window--active" id="window-threads">
+          <h2>Threads</h2>
         </section>
-      </div>
+
+        <!-- Треды -->
+        <section class="window  window--thread" id="window-100" data-thread-id="100">
+
+          <!-- Сообщения -->
+          <section class="message">
+            <div class="message__id">ID 946285639</div>
+            <p class="message__text">Hi User!</p>
+            <div class="message__time">11:23:44</div>
+          </section>
+
+          <section class="message  message--user">
+            <div class="message__id">ID 997887899</div>
+            <p class="message__text">Hi Thread 1!</p>
+            <div class="message__time">11:23:44</div>
+          </section>
+          <!--  -->
+
+          <form class="message-form" id="form-100" method="post">
+            <label class="message-form__file-label">
+              <input class="message-form__file" type="file">
+            </label>
+
+            <textarea class="message-form__text" id="text-100" placeholder="Type message..." autofocus></textarea>
+            <!-- Элемент для авто-изменения высоты <textarea> -->
+            <div class="message-form__help-div" id="text-100-div"></div>
+
+            <button class="message-form__send  btn" type="submit">Send</button>
+          </form>
+        </section>
+
+        <section class="window  window--thread" id="window-101" data-thread-id="101">
+
+          <!-- Сообщения -->
+          <section class="message">
+            <div class="message__id">ID 946285639</div>
+            <p class="message__text">Hi User!</p>
+            <div class="message__time">11:23:44</div>
+          </section>
+
+          <section class="message  message--user">
+            <div class="message__id">ID 997887899</div>
+            <p class="message__text">Hi Thread 2!</p>
+            <div class="message__time">11:23:44</div>
+          </section>
+          <!--  -->
+
+          <form class="message-form" id="form-101" method="post">
+            <label class="message-form__file-label">
+              <input class="message-form__file" type="file">
+            </label>
+
+            <textarea class="message-form__text" id="text-101" placeholder="Type message..." autofocus></textarea>
+            <!-- Элемент для авто-изменения высоты <textarea> -->
+            <div class="message-form__help-div" id="text-101-div"></div>
+
+            <button class="message-form__send  btn" type="submit">Send</button>
+          </form>
+        </section>
+        <!--  -->
+
+        <section class="window  window--settings " id="window-settings">
+          <h2>Settings</h2>
+        </section>
+      </section>
     </section>
 
     <script src="js/script.js"></script>

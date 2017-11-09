@@ -2,14 +2,19 @@
 @import "mixins";
 @import "base";
 
-@import "blocks/btn";
+// @import "blocks/btn";
 
 @import "blocks/chat";
-@import "blocks/main-nav";
+
+@import "blocks/main-menu";
 @import "blocks/tab";
-@import "blocks/search-form";
-@import "blocks/room";
-@import "blocks/chat-window";
-@import "blocks/thread";
+
+@import "blocks/workspace";
+@import "blocks/window";
 @import "blocks/message";
-@import "blocks/answer-form";
+@import "blocks/message-form";
+// @import "blocks/search-form";
+// @import "blocks/room";
+// @import "blocks/chat-window";
+// @import "blocks/thread";
+

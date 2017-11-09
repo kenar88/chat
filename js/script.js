@@ -1,170 +1,148 @@
-'use strict'
-
-// Глобальные переменные
-
 const chat = document.getElementById('chat'),
-      menu = document.getElementById('main-nav'),
-      menuTabList = menu.querySelector('.main-nav__tabs'),
-      innerChatWrapper = chat.querySelector('.chat__wrapper'),
-      backBtn = document.getElementById('back-btn'),
-      chatWindow = document.getElementById('chat-window');
-
-const answerForm = document.querySelector('.answer-form'),
-      answerBtn = answerForm.querySelector('.answer-form__btn'),
-      answerText = answerForm.querySelector('.answer-form__text');
+      mainMenu = document.getElementById('main-menu'),
+      allTabs = document.getElementsByClassName('tab'),
+      workspace = document.getElementById('workspace'),
+      workspaceBackBtn = workspace.querySelector('.workspace__back-btn');
+      allWorkWindow = workspace.getElementsByClassName('window'),
+      allMessageForm = document.getElementsByClassName('message-form');
 
 // Навигация:
-
-const allTabs = menuTabList.querySelectorAll('.tab'),
-      allWindowItems = chatWindow.querySelectorAll('.chat-window__item');
-
-// Включение и выключение вкладок
+// Переключение вкладок
 const toggleTabs = (event) => {
-  const requiredWindowItem = document.getElementById('item-' + event.currentTarget.id);
+  // Определяем соответствующее вкладке окно
+  const requiredWorkWindow = document.getElementById('window-' + event.currentTarget.id),
+        currentTextarea = requiredWorkWindow.querySelector('.message-form__text');
 
-  if (allTabs.length || allWindowItems.length) {
-    for (let i = 0; i < allWindowItems.length; i++) {
-      allWindowItems[i].classList.remove('chat-window__item--active');
+  // Снимаем активное состояние со всех окон и вкладок
+  if (allTabs.length || allWorkWindow.length) {
+    for (let i = 0; i < allWorkWindow.length; i++) {
+      allWorkWindow[i].classList.remove('window--active');
     }
     for (let i = 0; i < allTabs.length; i++) {
       allTabs[i].classList.remove('tab--active');
     }
   }
 
+  // Вешаем активное состояние на вкладку и соответствующее ей окно
   event.currentTarget.classList.add('tab--active');
-  requiredWindowItem.classList.add('chat-window__item--active');
+  requiredWorkWindow.classList.add('window--active');
   // Убираем класс активного состояния у главного меню (работает только на мобильной версии)
-  menu.classList.remove('main-nav--active');
-  // И добавляем обёртке окна чата
-  innerChatWrapper.classList.add('chat__wrapper--active');
-  answerText.focus();
+  mainMenu.classList.remove('main-menu--active');
+  // И добавляем рабочему пространству чата
+  workspace.classList.add('workspace--active');
+  // Устанавливаем фокус на <textarea>
+  currentTextarea.focus();
 };
 
 // Функция возврата назад для мобильной версии
 const returnBack = () => {
-  menu.classList.toggle('main-nav--active');
-  innerChatWrapper.classList.toggle('chat__wrapper--active');  
+  mainMenu.classList.toggle('main-menu--active');
+  workspace.classList.toggle('workspace--active');  
 };
-
-// Добавим обработчик кнопке "Назад"
-backBtn.onclick = returnBack;
-
 // Добавим обработчик клика каждой вкладке
 for (let i = 0; i < allTabs.length; i++) {
   allTabs[i].onclick = toggleTabs;
 }
+// Добавим обработчик кнопке "Назад"
+workspaceBackBtn.onclick = returnBack;
 
-// ----    ----    ----    ----    ----
-//     ----    ----    ----    ----
-
-
-
+////
+////
+////
 
 
 // Сообщения:
-
 // Конструктор сообщений
 function Messsage(roomId, text) {
-  const message = document.createElement('section'),
-        timeMessage = document.createElement('span'),
-        textMessage = document.createElement('p');
-
   this.data = {
         "method": "sendMessage",
         "room_id": roomId,
         "message": {
-          "text": text
+          "text": text.trim()
         } 
-  };
-  this.render = function(elem) {
-    message.className = 'message message--user';
-    timeMessage.className = 'message__time';
-    textMessage.className = 'message__text';
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
-    };
-    timeMessage.textContent = new Date().toLocaleString('ru', options);
-    console.log(timeMessage);
-    textMessage.textContent = text;
-    message.appendChild(textMessage);
-    message.appendChild(timeMessage);
-    elem.before(message);
   };
 };
 
+// Рендер сообщений
+const renderMessage = (elem, text) => {
+  // Создаём элементы сообщения
+  const message = document.createElement('section'),
+        timeMessage = document.createElement('div'),
+        textMessage = document.createElement('p'),
+        idMessage = document.createElement('div');
+
+  // Даём им необходимые классы
+  message.className = 'message message--user';
+  timeMessage.className = 'message__time';
+  textMessage.className = 'message__text';
+  idMessage.className = 'message__id';
+  // Задаём время отправки, текст сообщения
+  timeMessage.textContent = new Date().toLocaleString('ru', {hour: 'numeric',
+                                                             minute: 'numeric',
+                                                             second: 'numeric'});
+  textMessage.textContent = text;
+  // Собираем элементы вместе и добавляем в тред
+  message.appendChild(idMessage);
+  message.appendChild(textMessage);
+  message.appendChild(timeMessage);
+  elem.before(message);
+}
+
 // Отправка сообщений
 const sendMessage = (event) => {
-  // Отменяем стандартное поведение <form> при клике на кнопку
+  // Отменяем стандартное поведение <form>
   event.preventDefault();
-
-  // Определяем активный чат
-  const thread = document.querySelector('.chat-window__item--active'),
-        threadId = thread.id,
-        threadForm = thread.querySelector('.answer-form'),
-        threadFormText = threadForm.querySelector('.answer-form__text');
+  // Необходимо передавать в event имеено детей формы, чтобы константы определились
+  const currentWorkWindow = event.target.parentElement.parentElement,
+        currentForm = event.target.parentElement,
+        currentTextarea = currentForm.querySelector('.message-form__text'),
+        textMessage = currentTextarea.value,
+        threadId = currentWorkWindow.dataset.threadId; ;
 
   // Отслеживаем ввел ли пользователь текст сообщения
-  if (!threadFormText.value || !threadFormText.value.trim() ) {
-    threadFormText.value = '';
-    return threadFormText.setAttribute('placeholder', 'Enter the message...');
-  }
-
-  // Получаем id чата
-  let tabId = ''; 
-  for (let i = 0; i < threadId.length; i++) {
-    if (!isNaN(threadId[i]) ) {
-      tabId += threadId[i];
-    }
+  if (!textMessage || !textMessage.trim() ) {
+    currentTextarea.value = '';
+    return textMessage.setAttribute('placeholder', 'Enter the message...');
   }
 
   // Создаём сообщение
-  const message = new Messsage(tabId, threadFormText.value);
+  const message = new Messsage(threadId, textMessage);
 
   // Отправка сообщения на сервер
   // connection.send(JSON.stringify(message.data));
 
   // Рендерим сообщение в активном элементе окна чата
-  message.render(threadForm);
+  renderMessage(currentForm, message.data.message.text);
 
-  // Прокручиваем скроллбар вниз
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  // Прокручиваем скроллбар окна вниз
+  currentWorkWindow.scrollTop = currentWorkWindow.scrollHeight;
   // Сбрасываем содержимое формы до исходного состояния
-  threadFormText.setAttribute('placeholder', 'Type message...');
-  threadFormText.value = '';
-  threadFormText.focus();
+  currentTextarea.setAttribute('placeholder', 'Type message...');
+  currentTextarea.value = '';
+  currentTextarea.focus();
 };
 
-// ----    ----    ----    ----    ----
-//     ----    ----    ----    ----
-
-
-
+////
+////
+////
 
 
 // Форма отправки сообщения:
-
-const allAnswerForm = document.getElementsByClassName('answer-form'),
-      allAnswerBtn = document.getElementsByClassName('answer-form__btn');
-
 // Автоматическое изменение высоты <textarea>
 const textareaResize = (event, lineHeight, minLineCount) => {
-  const minLineHeight = minLineCount * lineHeight,
+  const minHeight = minLineCount * lineHeight,
         elem = event.target, 
         div = document.getElementById(elem.id + '-div');
 
   div.innerHTML = elem.value;
   div.style.width = elem.offsetWidth + 'px';
 
-
-
   let elemHeight = div.offsetHeight;
 
   if (event.ctrlKey && event.keyCode == 13) {
     elemHeight += lineHeight;
-  } else if (elemHeight < minLineHeight) {
-    elemHeight = minLineHeight;
+  } else if (elemHeight < minHeight) {
+    elemHeight = minHeight;
   }
 
   if (event.keyCode != 17) {
@@ -172,34 +150,34 @@ const textareaResize = (event, lineHeight, minLineCount) => {
   }
 };
 
-// Отправка сообщения при отпускании Enter и перевод строки при отпускании Ctrl + Enter в <textarea>
-const keyupEnter = (event) => {
-  if (!event.ctrlKey && event.keyCode == 13) {
-    event.preventDefault();
-    sendMessage(event);
-  }
-  if (event.ctrlKey && event.keyCode == 13) {
-    event.target.value += '\n';
-  }
-
-  textareaResize(event, 24, 1);
-};
-
-// Отмена перевода строки при нажатии на Enter в <textarea>
+// Отправка сообщений по нажатию Enter
+// Отменяем перевод строки при нажатии на Enter в <textarea>
 const keydownEnter = (event) => {
   if (!event.ctrlKey && event.keyCode == 13) {
     event.preventDefault();
   }
 };
 
-// Добавим обработчики всем формам и кнопкам
-for (let i = 0; i < allAnswerForm.length; i++) {
-  allAnswerForm[i].onkeyup = keyupEnter;
-  allAnswerForm[i].onkeydown = keydownEnter;
-}
-for (let i = 0; i < allAnswerBtn.length; i++) {
-  allAnswerBtn[i].onclick = sendMessage;
-}
 
-// ----    ----    ----    ----    ----
-//     ----    ----    ----    ----
+const keyupEnter = (event) => {
+  // Добавим перевод строки по отпусканию Ctrl + Enter в <textarea>
+  if (event.ctrlKey && event.keyCode == 13) {
+    event.target.value += '\n';
+  }
+  // Отправка сообщения по Enter
+  if (!event.ctrlKey && event.keyCode == 13) {
+    event.preventDefault();
+    sendMessage(event);
+  }
+ 
+  textareaResize(event, 24, 1);
+};
+
+// Добавим обработчики всем формам и кнопкам
+for (let i = 0; i < allMessageForm.length; i++) {
+  allMessageForm[i].onkeyup = keyupEnter;
+  allMessageForm[i].onkeydown = keydownEnter;
+  // allMessageForm[i].submit = sendMessage;
+  allMessageForm[i].querySelector('.message-form__send').onclick = sendMessage;
+  // allMessageForm[i].querySelector('.message-form__send').onclick = allMessageForm[i].submit;
+}
