@@ -15,6 +15,15 @@
     }
 }
 
+// Чтобы последнее сообщение не залезало в FF под форму отправки сообщения, margin в этом случае не работает
+@-moz-document url-prefix() {
+    .message {
+      &:last-of-type {
+        padding: 0 0 35px 0;
+      }
+    }
+}
+
 .message--user {
   align-self: flex-end;
     .message__text {
@@ -33,6 +42,7 @@
   margin: 0 0 0 0;
   padding: 5px 5px 5px 5px;
   white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .message__time {
