@@ -10,25 +10,25 @@
   <body>
     <section class="chat" id="chat">
       <nav class="main-menu  main-menu--active" id="main-menu">
-        <section class="tab  main-menu__threads  tab--active" id="threads">
+        <section class="tab  main-menu__threads  tab--active" id="threads" data-type="tab" data-id="threads">
           <img class="tab__img" src="img/group.svg" alt="img">
           <h3 class="tab__title">Threads</h3>
         </section>
 
         <h2 class="main-menu__title">Opened Threads</h2>
         <div class="main-menu__opened-threads">
-          <section class="tab  thread" id="100">
+          <section class="tab  thread" id="100" data-type="tab" data-id="100">
             <img class="tab__img" src="img/pic.svg" alt="img">
             <h3 class="tab__title">Thread 1</h3>
           </section>
 
-          <section class="tab  thread" id="101">
+          <section class="tab  thread" id="101" data-type="tab" data-id="101">
             <img class="tab__img" src="img/pic.svg" alt="img">
             <h3 class="tab__title">Thread 2</h3>
           </section>
         </div>
 
-        <section class="tab  main-menu__settings" id="settings">
+        <section class="tab  main-menu__settings" data-type="tab" id="settings" data-id="settings">
           <img class="tab__img" src="img/settings.svg" alt="img">
           <h3 class="tab__title">Settings</h3>
         </section>
@@ -37,12 +37,12 @@
       <section class="workspace" id="workspace">
         <button class="workspace__back-btn" type="button">Back</button>
 
-        <section class="window  window--threads  window--active" id="window-threads">
+        <section class="window  window--threads  window--active" id="window-threads" data-type="window" data-id="threads">
           <h2>Threads</h2>
         </section>
 
         <!-- Треды -->
-        <section class="window  window--thread" id="window-100" data-thread-id="100">
+        <section class="window  window--thread" id="window-100" data-type="window" data-id="100">
 
           <!-- Сообщения -->
           <section class="message">
@@ -67,11 +67,11 @@
             <!-- Элемент для авто-изменения высоты <textarea> -->
             <div class="message-form__help-div" id="text-100-div"></div>
 
-            <button class="message-form__send  btn" type="submit">Send</button>
+            <button class="message-form__send  btn">Send</button>
           </form>
         </section>
 
-        <section class="window  window--thread" id="window-101" data-thread-id="101">
+        <section class="window  window--thread" id="window-101" data-type="window" data-id="101">
 
           <!-- Сообщения -->
           <section class="message">
@@ -101,7 +101,7 @@
         </section>
         <!--  -->
 
-        <section class="window  window--settings " id="window-settings">
+        <section class="window  window--settings " id="window-settings" data-type="window" data-id="settings">
           <h2>Settings</h2>
         </section>
       </section>

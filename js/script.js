@@ -6,45 +6,51 @@ const chat = document.getElementById('chat'),
       allWorkWindow = workspace.getElementsByClassName('window'),
       allMessageForm = document.getElementsByClassName('message-form');
 
-// Навигация:
-// Переключение вкладок
-const toggleTabs = (event) => {
-  // Определяем соответствующее вкладке окно
-  const requiredWorkWindow = document.getElementById('window-' + event.currentTarget.id),
-        currentTextarea = requiredWorkWindow.querySelector('.message-form__text');
+// Конструктор меню
+function Menu (elem) {
+  const self = this;
 
-  // Снимаем активное состояние со всех окон и вкладок
-  if (allTabs.length || allWorkWindow.length) {
+  this.activate = function(elem) {
+    // Опрередим окно соответстувующее вкладке
+    const workWindow = document.getElementById('window-' + elem.dataset.id);
+    // Снимем класс '--active' с активного окна и вкладки
     for (let i = 0; i < allWorkWindow.length; i++) {
       allWorkWindow[i].classList.remove('window--active');
     }
     for (let i = 0; i < allTabs.length; i++) {
       allTabs[i].classList.remove('tab--active');
     }
-  }
-
-  // Вешаем активное состояние на вкладку и соответствующее ей окно
-  event.currentTarget.classList.add('tab--active');
-  requiredWorkWindow.classList.add('window--active');
-  // Убираем класс активного состояния у главного меню (работает только на мобильной версии)
-  mainMenu.classList.remove('main-menu--active');
-  // И добавляем рабочему пространству чата
-  workspace.classList.add('workspace--active');
-  // Устанавливаем фокус на <textarea>
-  currentTextarea.focus();
-};
+    // Добавим класс '--active' окну и вкладке по которой кликаем
+    elem.classList.add(elem.dataset.type + '--active');
+    workWindow.classList.add(workWindow.dataset.type + '--active');
+    // Убираем класс '--active' у меню (класс есть только на мобильных) И добавляем рабочему пространству чата
+    mainMenu.classList.remove('main-menu--active');
+    workspace.classList.add('workspace--active');
+    // И установим фокус на поле ввода сообщения
+    workWindow.querySelector('textarea').focus();
+  };
+  
+  // Добавим отслеживание клика всему главному меню
+  elem.addEventListener('click', function(event) {
+    let target = event.target;
+    // Найдем необходимый элемент
+    for (target; target != this; target = target.parentElement) {
+      if (target.dataset.type == 'tab') {
+        self.activate(target);
+      }
+    }
+  });
+}
+// И сразу создадим главное меню чата
+new Menu (mainMenu);
 
 // Функция возврата назад для мобильной версии
 const returnBack = () => {
   mainMenu.classList.toggle('main-menu--active');
   workspace.classList.toggle('workspace--active');  
 };
-// Добавим обработчик клика каждой вкладке
-for (let i = 0; i < allTabs.length; i++) {
-  allTabs[i].onclick = toggleTabs;
-}
 // Добавим обработчик кнопке "Назад"
-workspaceBackBtn.onclick = returnBack;
+workspaceBackBtn.addEventListener('click', returnBack);
 
 ////
 ////
@@ -90,36 +96,31 @@ const renderMessage = (elem, text) => {
 
 // Отправка сообщений
 const sendMessage = (event) => {
-  // Отменяем стандартное поведение <form>
-  event.preventDefault();
-  // Необходимо передавать в event имеено детей формы, чтобы константы определились
-  const currentWorkWindow = event.target.parentElement.parentElement,
-        currentForm = event.target.parentElement,
-        currentTextarea = currentForm.querySelector('.message-form__text'),
-        textMessage = currentTextarea.value,
-        threadId = currentWorkWindow.dataset.threadId; ;
-
+  const workWindow = event.parentElement,
+        form = event,
+        textarea = form.querySelector('.message-form__text'),
+        text = textarea.value,
+        threadId = workWindow.dataset.id;
   // Отслеживаем ввел ли пользователь текст сообщения
-  if (!textMessage || !textMessage.trim() ) {
-    currentTextarea.value = '';
-    return textMessage.setAttribute('placeholder', 'Enter the message...');
+  if (!text || !text.trim() ) {
+    textarea.value = '';
+    textarea.setAttribute('placeholder', 'Enter the message...');
+    return;
   }
-
   // Создаём сообщение
-  const message = new Messsage(threadId, textMessage);
+  const message = new Messsage(threadId, text);
 
   // Отправка сообщения на сервер
   // connection.send(JSON.stringify(message.data));
 
   // Рендерим сообщение в активном элементе окна чата
-  renderMessage(currentForm, message.data.message.text);
-
+  renderMessage(form, text);
   // Прокручиваем скроллбар окна вниз
-  currentWorkWindow.scrollTop = currentWorkWindow.scrollHeight;
+  workWindow.scrollTop = workWindow.scrollHeight;
   // Сбрасываем содержимое формы до исходного состояния
-  currentTextarea.setAttribute('placeholder', 'Type message...');
-  currentTextarea.value = '';
-  currentTextarea.focus();
+  textarea.setAttribute('placeholder', 'Type message...');
+  textarea.value = '';
+  textarea.focus();
 };
 
 ////
@@ -131,7 +132,7 @@ const sendMessage = (event) => {
 // Автоматическое изменение высоты <textarea>
 const textareaResize = (event, lineHeight, minLineCount) => {
   const minHeight = minLineCount * lineHeight,
-        elem = event.target, 
+        elem = event, 
         div = document.getElementById(elem.id + '-div');
 
   div.innerHTML = elem.value;
@@ -150,34 +151,40 @@ const textareaResize = (event, lineHeight, minLineCount) => {
   }
 };
 
-// Отправка сообщений по нажатию Enter
-// Отменяем перевод строки при нажатии на Enter в <textarea>
-const keydownEnter = (event) => {
-  if (!event.ctrlKey && event.keyCode == 13) {
+// Конструктор формы сообщения
+function FormMessage (elem) {
+  const self = this,
+        textarea = elem.querySelector('textarea');
+  // Отправка сообщений при submit
+  this.send = function(event) {
     event.preventDefault();
-  }
-};
+    sendMessage(event.target);
+  };
+  // Отправка сообщений по нажатию Enter в textarea
+  this.sendEnter = function(event) {
+    if (!event.ctrlKey && event.keyCode == 13) {
+      // Отменяем перевод строки при нажатии на Enter
+      event.preventDefault();
+      // И отправляем сообщение
+      sendMessage(event.target.parentElement);
+    }
+    // Добавим перевод строки по отпусканию Ctrl + Enter в <textarea>
+    if (event.type == 'keyup' && event.ctrlKey && event.keyCode == 13) {
+      event.target.value += '\n';
+      textareaResize(event.target, 24, 1);
+    }
+    textareaResize(event.target, 24, 1);
+  };
 
-
-const keyupEnter = (event) => {
-  // Добавим перевод строки по отпусканию Ctrl + Enter в <textarea>
-  if (event.ctrlKey && event.keyCode == 13) {
-    event.target.value += '\n';
-  }
-  // Отправка сообщения по Enter
-  if (!event.ctrlKey && event.keyCode == 13) {
-    event.preventDefault();
-    sendMessage(event);
-  }
- 
-  textareaResize(event, 24, 1);
-};
-
-// Добавим обработчики всем формам и кнопкам
-for (let i = 0; i < allMessageForm.length; i++) {
-  allMessageForm[i].onkeyup = keyupEnter;
-  allMessageForm[i].onkeydown = keydownEnter;
-  // allMessageForm[i].submit = sendMessage;
-  allMessageForm[i].querySelector('.message-form__send').onclick = sendMessage;
-  // allMessageForm[i].querySelector('.message-form__send').onclick = allMessageForm[i].submit;
+  // Добавим обработчик submit всей форме
+  elem.addEventListener('submit', self.send);
+  // Добавим обработчики textarea
+  textarea.addEventListener('keyup', self.sendEnter);
+  textarea.addEventListener('keydown', self.sendEnter);
 }
+
+// Пока что создадим формы в ручную, потом они будут создаваться в конструкторе тредов
+const form100 = document.getElementById('form-100'),
+      form101 = document.getElementById('form-101');
+new FormMessage(form100);
+new FormMessage(form101);
