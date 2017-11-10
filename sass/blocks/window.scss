@@ -11,3 +11,16 @@
   overflow-y: scroll;
 
 }
+
+.window__header {
+  border: 1px solid rebeccapurple;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.window__title {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}

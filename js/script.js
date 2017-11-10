@@ -1,10 +1,13 @@
 const chat = document.getElementById('chat'),
       mainMenu = document.getElementById('main-menu'),
+      openedThreads = document.getElementById('opened-threads'),
       allTabs = document.getElementsByClassName('tab'),
       workspace = document.getElementById('workspace'),
       workspaceBackBtn = workspace.querySelector('.workspace__back-btn');
       allWorkWindow = workspace.getElementsByClassName('window'),
-      allMessageForm = document.getElementsByClassName('message-form');
+      allMessageForm = document.getElementsByClassName('message-form'),
+      threads = document.getElementById('threads'),
+      createThreadBtn = document.getElementById('create-thread-btn');
 
 // Конструктор меню
 function Menu (elem) {
@@ -26,8 +29,10 @@ function Menu (elem) {
     // Убираем класс '--active' у меню (класс есть только на мобильных) И добавляем рабочему пространству чата
     mainMenu.classList.remove('main-menu--active');
     workspace.classList.add('workspace--active');
-    // И установим фокус на поле ввода сообщения
-    workWindow.querySelector('textarea').focus();
+    // И установим фокус на поле ввода сообщения, но только если id это число (id меню и настроек слова)
+    if (+workWindow.dataset.id) {
+      workWindow.querySelector('textarea').focus();
+    }
   };
   
   // Добавим отслеживание клика всему главному меню
@@ -51,6 +56,78 @@ const returnBack = () => {
 };
 // Добавим обработчик кнопке "Назад"
 workspaceBackBtn.addEventListener('click', returnBack);
+
+////
+////
+////
+
+
+// Треды:
+// Конструктор тредов
+function Thread(id, title) {
+  this.data = {
+    "method": "createThread",
+    "id": id,
+    "title": title
+  }
+}
+
+// Рендер табов
+const renderTab = (threadId, title) => {
+  const tab = document.createElement('sections');
+  tab.id = threadId;
+  tab.className = 'tab';
+  tab.dataset.type = 'tab';
+  tab.dataset.id = threadId;
+  tab.innerHTML = `<img class="tab__img" src="img/pic.svg" alt="img"><h3 class="tab__title">${title}</h3>`;
+
+  return tab;
+};
+// Рендер рабочего окна
+const renderWorkWindow = (threadId) => {
+  const workWindow = document.createElement('sections');
+  workWindow.id = `window-${threadId}`;
+  workWindow.className = 'window window--thread';
+  workWindow.dataset.type = 'window';
+  workWindow.dataset.id = threadId;
+
+  // Рендерим и создаём форму для каждого рабочего окна
+  const messageForm = renderMessageForm(threadId);
+  new FormMessage(messageForm);
+  workWindow.append(messageForm);
+
+  return workWindow;
+};
+// Рендер формы в рабочем окне
+const renderMessageForm = (threadId) => {
+  const messageForm = document.createElement('form');
+  messageForm.id = `form-${threadId}`;
+  messageForm.className = 'message-form';
+  messageForm.dataset.id = `form-${threadId}`;
+  messageForm.innerHTML = `
+    <label class="message-form__file-label">
+      <input class="message-form__file" type="file">
+    </label>
+    <textarea class="message-form__text" id="text-${threadId}" placeholder="Type message..." autofocus></textarea>
+    <div class="message-form__help-div" id="text-${threadId}-div"></div>
+    <button class="message-form__send  btn" type="submit">Send</button>`;
+
+  return messageForm;
+};
+// Создаём тред и добавляем его на страницу
+const createThread = () => {
+  const thread = new Thread(777, 'new!'),
+        threadId = thread.data.id,
+        threadTitle = thread.data.title,
+        tab = renderTab(threadId, threadTitle),
+        workWindow = renderWorkWindow(threadId);
+
+  openedThreads.append(tab);
+  workspace.append(workWindow);
+};
+
+// Повесим обработчик на кнопку создания треда
+createThreadBtn.addEventListener('click', createThread);
 
 ////
 ////

@@ -16,7 +16,7 @@
         </section>
 
         <h2 class="main-menu__title">Opened Threads</h2>
-        <div class="main-menu__opened-threads">
+        <div class="main-menu__opened-threads" id="opened-threads">
           <section class="tab  thread" id="100" data-type="tab" data-id="100">
             <img class="tab__img" src="img/pic.svg" alt="img">
             <h3 class="tab__title">Thread 1</h3>
@@ -37,8 +37,55 @@
       <section class="workspace" id="workspace">
         <button class="workspace__back-btn" type="button">Back</button>
 
-        <section class="window  window--threads  window--active" id="window-threads" data-type="window" data-id="threads">
-          <h2>Threads</h2>
+        <section class="window  threads  window--active" id="window-threads" data-type="window" data-id="threads">
+          <header class="window__header">
+            <h2 class="window__title">Threads</h2>
+            <form class="search-form" method="get">
+              <label class="search-form__input-label">
+                <input class="search-form__input" type="text" placeholder="Search">
+              </label>
+              <button class="search-form__btn  btn" type="submit">Search</button>
+            </form>
+            <button class="threads__create-thread-btn" id="create-thread-btn">Create thread</button>
+          </header>
+          <section class="threads__tops">
+            <section class="top">
+              <h3 class="top__title">New</h3>
+              <section class="tab  thread" id="100" data-type="tab" data-id="100">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 1</h3>
+              </section>
+
+              <section class="tab  thread" id="101" data-type="tab" data-id="101">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 2</h3>
+              </section>
+            </section>
+            <section class="top">
+              <h3 class="top__title">Popular</h3>
+              <section class="tab  thread" id="100" data-type="tab" data-id="100">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 1</h3>
+              </section>
+
+              <section class="tab  thread" id="101" data-type="tab" data-id="101">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 2</h3>
+              </section>
+            </section>
+            <section class="top">
+              <h3 class="top__title">Posts</h3>
+              <section class="tab  thread" id="100" data-type="tab" data-id="100">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 1</h3>
+              </section>
+
+              <section class="tab  thread" id="101" data-type="tab" data-id="101">
+                <img class="tab__img" src="img/pic.svg" alt="img">
+                <h3 class="tab__title">Thread 2</h3>
+              </section>
+            </section>
+          </section>
         </section>
 
         <!-- Треды -->
@@ -101,7 +148,7 @@
         </section>
         <!--  -->
 
-        <section class="window  window--settings " id="window-settings" data-type="window" data-id="settings">
+        <section class="window  settings" id="window-settings" data-type="window" data-id="settings">
           <h2>Settings</h2>
         </section>
       </section>
