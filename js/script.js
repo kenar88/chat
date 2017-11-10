@@ -209,7 +209,7 @@ const sendMessage = (event) => {
 // Автоматическое изменение высоты <textarea>
 const textareaResize = (event, lineHeight, minLineCount) => {
   const minHeight = minLineCount * lineHeight,
-        elem = event, 
+        elem = event.target, 
         div = document.getElementById(elem.id + '-div');
 
   div.innerHTML = elem.value;
@@ -248,9 +248,9 @@ function FormMessage (elem) {
     // Добавим перевод строки по отпусканию Ctrl + Enter в <textarea>
     if (event.type == 'keyup' && event.ctrlKey && event.keyCode == 13) {
       event.target.value += '\n';
-      textareaResize(event.target, 24, 1);
+      textareaResize(event, 24, 1);
     }
-    textareaResize(event.target, 24, 1);
+    textareaResize(event, 24, 1);
   };
 
   // Добавим обработчик submit всей форме
