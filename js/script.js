@@ -1,20 +1,40 @@
+// Определим глобальные переменные
 const chat = document.getElementById('chat'),
       mainMenu = document.getElementById('main-menu'),
       openedThreads = document.getElementById('opened-threads'),
       allTabs = document.getElementsByClassName('tab'),
       workspace = document.getElementById('workspace'),
-      workspaceBackBtn = workspace.querySelector('.workspace__back-btn');
+      workspaceBackBtn = document.getElementById('back-btn'),
       allWorkWindow = workspace.getElementsByClassName('window'),
+      workWindowThreads = document.getElementById('window-threads'),
       allMessageForm = document.getElementsByClassName('message-form'),
       threads = document.getElementById('threads'),
-      createThreadBtn = document.getElementById('create-thread-btn');
+      createThreadBtn = document.getElementById('create-thread-btn'),
+      threadsTops = document.getElementById('threads-tops'),
+      allThreadsList = document.getElementById('all-threads-list');
 
-// Конструктор меню
-function Menu (elem) {
+// При входе в чат создаём нового пользователя
+function User(userID) {
+  this.data = {
+    "id": "userID"
+  }
+}
+
+new User('000')
+
+////   ///   ////
+////   ///   ////
+////   ///   ////
+
+
+
+// Поведение блоков:
+// Конструктор действий меню
+function Menu(elem) {
   const self = this;
 
   this.activate = function(elem) {
-    // Опрередим окно соответстувующее вкладке
+    // Определим окно соответстувующее вкладке
     const workWindow = document.getElementById('window-' + elem.dataset.id);
     // Снимем класс '--active' с активного окна и вкладки
     for (let i = 0; i < allWorkWindow.length; i++) {
@@ -57,179 +77,65 @@ const returnBack = () => {
 // Добавим обработчик кнопке "Назад"
 workspaceBackBtn.addEventListener('click', returnBack);
 
-////
-////
-////
 
 
-// Треды:
-// Конструктор тредов
-function Thread(id, title) {
-  this.data = {
-    "method": "createThread",
-    "id": id,
-    "title": title
-  }
-}
+// Конструктор действий рабочего окна
+function workWindow(elem) {
+  const self = this;
 
-// Рендер табов
-const renderTab = (threadId, title) => {
-  const tab = document.createElement('sections');
-  tab.id = threadId;
-  tab.className = 'tab';
-  tab.dataset.type = 'tab';
-  tab.dataset.id = threadId;
-  tab.innerHTML = `<img class="tab__img" src="img/pic.svg" alt="img"><h3 class="tab__title">${title}</h3>`;
-
-  return tab;
-};
-// Рендер рабочего окна
-const renderWorkWindow = (threadId) => {
-  const workWindow = document.createElement('sections');
-  workWindow.id = `window-${threadId}`;
-  workWindow.className = 'window window--thread';
-  workWindow.dataset.type = 'window';
-  workWindow.dataset.id = threadId;
-
-  // Рендерим и создаём форму для каждого рабочего окна
-  const messageForm = renderMessageForm(threadId);
-  new FormMessage(messageForm);
-  workWindow.append(messageForm);
-
-  return workWindow;
-};
-// Рендер формы в рабочем окне
-const renderMessageForm = (threadId) => {
-  const messageForm = document.createElement('form');
-  messageForm.id = `form-${threadId}`;
-  messageForm.className = 'message-form';
-  messageForm.dataset.id = `form-${threadId}`;
-  messageForm.innerHTML = `
-    <label class="message-form__file-label">
-      <input class="message-form__file" type="file">
-    </label>
-    <textarea class="message-form__text" id="text-${threadId}" placeholder="Type message..." autofocus></textarea>
-    <div class="message-form__help-div" id="text-${threadId}-div"></div>
-    <button class="message-form__send  btn" type="submit">Send</button>`;
-
-  return messageForm;
-};
-// Создаём тред и добавляем его на страницу
-const createThread = () => {
-  const thread = new Thread(777, 'new!'),
-        threadId = thread.data.id,
-        threadTitle = thread.data.title,
-        tab = renderTab(threadId, threadTitle),
-        workWindow = renderWorkWindow(threadId);
-
-  openedThreads.append(tab);
-  workspace.append(workWindow);
-};
-
-// Повесим обработчик на кнопку создания треда
-createThreadBtn.addEventListener('click', createThread);
-
-////
-////
-////
-
-
-// Сообщения:
-// Конструктор сообщений
-function Messsage(roomId, text) {
-  this.data = {
-        "method": "sendMessage",
-        "room_id": roomId,
-        "message": {
-          "text": text.trim()
-        } 
+  this.openThread = function(elem) {
+    // Проверим, если тред открыт, не открываем его повторно
+    for (let i = 0; i < allTabs.length; i++) {
+      if (allTabs[i].dataset.id === elem.dataset.id) return; 
+    }
+    // Создадим для треда вкладку и новое рабочее окно c формой
+    const threadID = elem.dataset.id,
+          threadTitle = elem.dataset.title,
+          tab = renderTab(threadID, threadTitle),
+          workWindow = renderWorkWindow(threadID),
+          messageForm = renderMessageForm(threadID);
+    // Добавим треду класс '--opened'
+    // elem.classList.add('thread--opened');
+    // Добавим всем нужным тредам модификатор '--opened'
+    for (let i = 0; i < threadsTops.children.length; i++) {
+      let top = threadsTops.children[i];
+      for (let k = 0; k < top.children.length; k++) {
+        if (top.children[k].dataset.id === threadID) {
+          top.children[k].classList.add('thread--opened');
+        }
+      }
+    }
+    
+    // Добавим поведение форме
+    new MessageForm(messageForm);
+    
+    // А теперь добавим их на страницу
+    openedThreads.append(tab);
+    workspace.append(workWindow);
+    workWindow.append(messageForm);
+    // Вызовем клик на табе, чтобы сразу переключиться на открытый тред
+    tab.click();
   };
-};
 
-// Рендер сообщений
-const renderMessage = (elem, text) => {
-  // Создаём элементы сообщения
-  const message = document.createElement('section'),
-        timeMessage = document.createElement('div'),
-        textMessage = document.createElement('p'),
-        idMessage = document.createElement('div');
-
-  // Даём им необходимые классы
-  message.className = 'message message--user';
-  timeMessage.className = 'message__time';
-  textMessage.className = 'message__text';
-  idMessage.className = 'message__id';
-  // Задаём время отправки, текст сообщения
-  timeMessage.textContent = new Date().toLocaleString('ru', {hour: 'numeric',
-                                                             minute: 'numeric',
-                                                             second: 'numeric'});
-  textMessage.textContent = text;
-  // Собираем элементы вместе и добавляем в тред
-  message.appendChild(idMessage);
-  message.appendChild(textMessage);
-  message.appendChild(timeMessage);
-  elem.before(message);
+  // Добавим отслеживание клика всему рабочему окну
+  elem.addEventListener('click', function(event) {
+    let target = event.target;
+    // Найдем необходимый элемент
+    for (target; target != this; target = target.parentElement) {
+      if (target.dataset.type == 'thread') {
+        self.openThread(target);
+      }
+    }
+  });
 }
 
-// Отправка сообщений
-const sendMessage = (event) => {
-  const workWindow = event.parentElement,
-        form = event,
-        textarea = form.querySelector('.message-form__text'),
-        text = textarea.value,
-        threadId = workWindow.dataset.id;
-  // Отслеживаем ввел ли пользователь текст сообщения
-  if (!text || !text.trim() ) {
-    textarea.value = '';
-    textarea.setAttribute('placeholder', 'Enter the message...');
-    return;
-  }
-  // Создаём сообщение
-  const message = new Messsage(threadId, text);
-
-  // Отправка сообщения на сервер
-  // connection.send(JSON.stringify(message.data));
-
-  // Рендерим сообщение в активном элементе окна чата
-  renderMessage(form, text);
-  // Прокручиваем скроллбар окна вниз
-  workWindow.scrollTop = workWindow.scrollHeight;
-  // Сбрасываем содержимое формы до исходного состояния
-  textarea.setAttribute('placeholder', 'Type message...');
-  textarea.value = '';
-  textarea.focus();
-};
-
-////
-////
-////
+// Сразу создадим поведение для дефолтного окна всех тредов
+workWindow(workWindowThreads);
 
 
-// Форма отправки сообщения:
-// Автоматическое изменение высоты <textarea>
-const textareaResize = (event, lineHeight, minLineCount) => {
-  const minHeight = minLineCount * lineHeight,
-        elem = event.target, 
-        div = document.getElementById(elem.id + '-div');
 
-  div.innerHTML = elem.value;
-  div.style.width = elem.offsetWidth + 'px';
-
-  let elemHeight = div.offsetHeight;
-
-  if (event.ctrlKey && event.keyCode == 13) {
-    elemHeight += lineHeight;
-  } else if (elemHeight < minHeight) {
-    elemHeight = minHeight;
-  }
-
-  if (event.keyCode != 17) {
-    elem.style.height = elemHeight + 'px';
-  }
-};
-
-// Конструктор формы сообщения
-function FormMessage (elem) {
+// Конструктор действий для формы
+function MessageForm(elem) {
   const self = this,
         textarea = elem.querySelector('textarea');
   // Отправка сообщений при submit
@@ -248,9 +154,29 @@ function FormMessage (elem) {
     // Добавим перевод строки по отпусканию Ctrl + Enter в <textarea>
     if (event.type == 'keyup' && event.ctrlKey && event.keyCode == 13) {
       event.target.value += '\n';
-      textareaResize(event, 24, 1);
+      self.textareaResize(event, 24, 1);
     }
-    textareaResize(event, 24, 1);
+    self.textareaResize(event, 24, 1);
+  };
+  this.textareaResize = function(event, lineHeight, minLineCount) {
+    const minHeight = minLineCount * lineHeight,
+          elem = event.target, 
+          div = document.getElementById(elem.id + '-div');
+
+          div.innerHTML = elem.value;
+          div.style.width = elem.offsetWidth + 'px';
+
+    let elemHeight = div.offsetHeight;
+
+    if (event.ctrlKey && event.keyCode == 13) {
+      elemHeight += lineHeight;
+    } else if (elemHeight < minHeight) {
+      elemHeight = minHeight;
+    }
+
+    if(event.keyCode != 17) {
+      elem.style.height = elemHeight + 'px';
+    }
   };
 
   // Добавим обработчик submit всей форме
@@ -260,8 +186,177 @@ function FormMessage (elem) {
   textarea.addEventListener('keydown', self.sendEnter);
 }
 
-// Пока что создадим формы в ручную, потом они будут создаваться в конструкторе тредов
-const form100 = document.getElementById('form-100'),
-      form101 = document.getElementById('form-101');
-new FormMessage(form100);
-new FormMessage(form101);
+////   ///   ////
+////   ///   ////
+////   ///   ////
+
+
+
+// Создание тредов:
+// Конструктор треда
+function Thread(id, title) {
+  this.data = {
+    "method": "createThread",
+    "id": id,
+    "title": title
+  }
+}
+
+// Создание и рендеринг треда
+const createThread = () => {
+  // Запросим заголовок треда у пользователя, а id возьмём с сервера (пока что рандомно)
+  const threadID = Math.round(Math.random() * 100),
+        threadTitle = prompt('Enter thread title', '');
+  // Создадим тред, его элемент для страницы и остальное
+  const thread = new Thread(threadID, threadTitle),
+        threadElem = renderThread(threadID, threadTitle),
+        tab = renderTab(threadID, threadTitle),
+        workWindow = renderWorkWindow(threadID),
+        messageForm = renderMessageForm(threadID);
+  // Добавим треду класс '--opened'
+  threadElem.classList.add('thread--opened');
+  // Добавим поведение форме
+  new MessageForm(messageForm);
+
+  // Здесь должна быть отправка треда на сервер
+
+  allThreadsList.append(threadElem);
+  openedThreads.append(tab);
+  workspace.append(workWindow);
+  workWindow.append(messageForm);
+};
+// Повесим обработчик на кнопку создания треда
+createThreadBtn.addEventListener('click', createThread);
+
+////   ///   ////
+////   ///   ////
+////   ///   ////
+
+
+
+// Сообщения:
+// Конструктор сообщений
+function Messsage(threadID, messageText) {
+  this.data = {
+        "method": "sendMessage",
+        "room_id": threadID,
+        "message": {
+          "text": messageText
+        } 
+  };
+};
+
+// Отправка сообщений
+const sendMessage = (event) => {
+  // Необходимое рабочее окно будет родителем event, так как только форма передаёт сообщения
+  const workWindow = event.parentElement,
+        threadID = workWindow.dataset.id,
+        messageForm = event,
+        textarea = document.getElementById(`textarea-${threadID}`),
+        messageText = textarea.value;
+  // Отслеживаем ввел ли пользователь текст сообщения
+  if (!messageText || !messageText.trim() ) {
+    // Если не ввел, то сбросим содержимые пробелы и покажем плейсхолдер
+    textarea.value = '';
+    textarea.setAttribute('placeholder', 'Enter the message...');
+    return;
+  }
+
+  // Тут мы должны получить ID сообщения с сервера и возможно еще ответ со временем, но пока так
+  const messageID = Math.round(Math.random() * 1000000),
+        messageTime = new Date().toLocaleString('ru',
+          { hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric' });
+
+  // Создаём сообщение и его элемент для страницы
+  const message = new Messsage(threadID, messageText),
+        messageElem = renderMessage(messageID, messageText, messageTime);
+
+  // Отправка сообщения на сервер
+  // connection.send(JSON.stringify(message.data));
+
+  // Вставляем сообщение на страницу перед формой, но перед этим дадим сообщению модификатор '--user', чтобы оно отобразилось с левой стороны
+  messageElem.classList.add('message--user');
+  messageForm.before(messageElem);
+  // Прокручиваем скроллбар окна вниз
+  workWindow.scrollTop = workWindow.scrollHeight;
+  // Сбрасываем содержимое формы до исходного состояния
+  textarea.setAttribute('placeholder', 'Type message...');
+  textarea.value = '';
+  textarea.focus();
+};
+
+////   ///   ////
+////   ///   ////
+////   ///   ////
+
+
+
+// Рендеры элементов интерфейса:
+// Рендер треда
+const renderThread = (threadID, threadTitle) => {
+  const thread = document.createElement('sections');
+  thread.id = threadID;
+  thread.className = 'thread';
+  thread.dataset.type = 'thread';
+  thread.dataset.id = threadID;
+  thread.dataset.title = `${threadTitle}`;
+  thread.innerHTML = `<img class="thread__img" src="img/pic.svg" alt="img"><h3 class="thread__title">${threadTitle}</h3>`;
+
+  return thread;
+};
+// Рендер табов
+const renderTab = (threadID, threadTitle) => {
+  const tab = document.createElement('sections');
+  tab.id = threadID;
+  tab.className = 'tab';
+  tab.dataset.type = 'tab';
+  tab.dataset.id = threadID;
+  tab.innerHTML = `<img class="tab__img" src="img/pic.svg" alt="img"><h3 class="tab__title">${threadTitle}</h3>`;
+
+  return tab;
+};
+// Рендер рабочего окна
+const renderWorkWindow = (threadID) => {
+  const workWindow = document.createElement('sections');
+  workWindow.id = `window-${threadID}`;
+  workWindow.className = 'window window--thread';
+  workWindow.dataset.type = 'window';
+  workWindow.dataset.id = threadID;
+
+  return workWindow;
+};
+// Рендер формы сообщения
+const renderMessageForm = (threadID) => {
+  const messageForm = document.createElement('form');
+  messageForm.id = `form-${threadID}`;
+  messageForm.className = 'message-form';
+  messageForm.dataset.id = `form-${threadID}`;
+  messageForm.innerHTML = `
+    <label class="message-form__file-label">
+      <input class="message-form__file" type="file">
+    </label>
+    <textarea class="message-form__text" id="textarea-${threadID}" placeholder="Type message..." autofocus></textarea>
+    <div class="message-form__help-div" id="textarea-${threadID}-div"></div>
+    <button class="message-form__send  btn" type="submit">Send</button>`;
+
+  return messageForm;
+};
+// Рендер сообщения
+const renderMessage = (messageID, messageText, messageTime) => {
+  const message = document.createElement('section');
+        message.id = `message-${messageID}`;
+        message.className = 'message';
+        message.dataset.type = 'message';
+        message.innerHTML = `
+          <div class="message__id">ID ${messageID}</div>
+          <p class="message__text">${messageText}</p>
+          <div class="message__time">${messageTime}</div>`;
+
+        return message;
+};
+
+////   ///   ////
+////   ///   ////
+////   ///   ////

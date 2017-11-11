@@ -33,3 +33,13 @@
     width: 100vw;
   }
 }
+
+@media ($tablet-widths) {
+  .main-menu {
+    width: 24%;
+  }
+}
+
+@media ($desktop-widths) {
+
+}

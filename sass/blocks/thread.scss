@@ -1,0 +1,21 @@
+.thread {
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.thread--opened {
+  background-color: lightcoral;
+}
+
+.thread__img {
+  border: 1px solid #fff;
+  width: 48px;
+  height: 48px;
+}
+
+.thread__title {
+  margin: 0;
+  padding: 0;
+}
