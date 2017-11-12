@@ -2,16 +2,16 @@
 const chat = document.getElementById('chat'),
       mainMenu = document.getElementById('main-menu'),
       openedThreads = document.getElementById('opened-threads'),
-      allTabs = document.getElementsByClassName('tab'),
+      allTabs = mainMenu.getElementsByClassName('tab'),
       workspace = document.getElementById('workspace'),
       workspaceBackBtn = document.getElementById('back-btn'),
       allWorkWindow = workspace.getElementsByClassName('window'),
+      workWindowContent = document.getElementById('window-content'),
       workWindowThreads = document.getElementById('window-threads'),
       allMessageForm = document.getElementsByClassName('message-form'),
       threads = document.getElementById('threads'),
       createThreadBtn = document.getElementById('create-thread-btn'),
-      threadsTops = document.getElementById('threads-tops'),
-      allThreadsList = document.getElementById('all-threads-list');
+      threadsList = document.getElementById('threads-list');
 
 // При входе в чат создаём нового пользователя
 function User(userID) {
@@ -95,13 +95,14 @@ function workWindow(elem) {
           workWindow = renderWorkWindow(threadID),
           messageForm = renderMessageForm(threadID);
     // Добавим треду класс '--opened'
-    // elem.classList.add('thread--opened');
-    // Добавим всем нужным тредам модификатор '--opened'
-    for (let i = 0; i < threadsTops.children.length; i++) {
-      let top = threadsTops.children[i];
+    document.getElementById(threadID).classList.add('thread--opened');
+    // Добавим всем нужным табам в топах модификатор '--active'
+    for (let i = 0; i < workWindowContent.children.length; i++) {
+      let top = workWindowContent.children[i];
       for (let k = 0; k < top.children.length; k++) {
-        if (top.children[k].dataset.id === threadID) {
-          top.children[k].classList.add('thread--opened');
+        let tab = top.children[k];
+        if (tab.dataset.id === threadID && tab.dataset.type === 'tab') {
+          tab.classList.add('tab--active');
         }
       }
     }
@@ -123,6 +124,9 @@ function workWindow(elem) {
     // Найдем необходимый элемент
     for (target; target != this; target = target.parentElement) {
       if (target.dataset.type == 'thread') {
+        self.openThread(target);
+      }
+      if (target.dataset.type == 'tab') {
         self.openThread(target);
       }
     }
@@ -220,7 +224,7 @@ const createThread = () => {
 
   // Здесь должна быть отправка треда на сервер
 
-  allThreadsList.append(threadElem);
+  threadsList.append(threadElem);
   openedThreads.append(tab);
   workspace.append(workWindow);
   workWindow.append(messageForm);
@@ -309,10 +313,11 @@ const renderThread = (threadID, threadTitle) => {
 // Рендер табов
 const renderTab = (threadID, threadTitle) => {
   const tab = document.createElement('sections');
-  tab.id = threadID;
+  // tab.id = `tab-${threadID}`;
   tab.className = 'tab';
   tab.dataset.type = 'tab';
   tab.dataset.id = threadID;
+  tab.dataset.title = `${threadTitle}`;
   tab.innerHTML = `<img class="tab__img" src="img/pic.svg" alt="img"><h3 class="tab__title">${threadTitle}</h3>`;
 
   return tab;
