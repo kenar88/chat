@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Chat</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
@@ -19,6 +19,8 @@
         <div class="main-menu__opened-rooms" id="opened-rooms">
         </div>
 
+        <button class="tab  main-menu__new-room" id="new-room-btn">New room</button>
+
         <section class="tab  main-menu__settings" data-type="tab" id="settings" data-id="settings">
           <img class="tab__img" src="img/settings.svg" alt="img">
           <h3 class="tab__title">Settings</h3>
@@ -31,7 +33,6 @@
         <section class="window  rooms  window--active" id="window-rooms" data-type="window" data-id="rooms">
           <header class="window__header">
             <h2 class="window__title">Rooms</h2>
-            <button class="rooms__new-room-btn" id="new-room-btn">New room</button>
           </header>
           <section class="window__content" id="window-content">
           </section>
@@ -47,6 +48,6 @@
       </section>
     </section>
 
-    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

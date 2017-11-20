@@ -14,11 +14,11 @@ const PATHS = {
 
 module.exports = {
     entry: {
-        'index': PATHS.source + '/index.js'
+        'index': PATHS.source + '/script.js'
     },
     output: {
         path: PATHS.build,
-        filename: './js/[name].js'
+        filename: './js/script.js'
     },
     plugins: [
         // new HtmlWebpackPlugin({
@@ -27,7 +27,7 @@ module.exports = {
         //     template: PATHS.source + '/index.pug'
         // }),
         new CleanWebpackPlugin('build'),
-        new ExtractTextPlugin('./css/[name].css'),
+        new ExtractTextPlugin('./css/style.css'),
         new OptimizeCssAssetsPlugin({
             cssProcessorOptions: { discardComments: {removeAll: true } }
         }),
