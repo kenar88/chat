@@ -11,7 +11,6 @@ const renderMessage = (roomID, data) => {
   const ID = data.id,
         text = data.text,
         time = new Date(data.timestamp * 1000).toLocaleString("ru", {
-          timezone: 'UTC',
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric'
@@ -35,5 +34,9 @@ const renderMessage = (roomID, data) => {
     document.getElementById(`window-${roomID}`).scrollTop = document.getElementById(`window-${roomID}`).scrollHeight;
   }
 };
+
+
+
+
 
 export default renderMessage;

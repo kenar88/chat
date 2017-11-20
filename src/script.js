@@ -4,6 +4,8 @@ import './style.scss';
 import './menu/menu.js';
 import renderTab from './menu/tab/tab.js';
 
+import './search-form/search-form.js';
+
 import './workspace/workspace.js';
 
 import renderWorkWindow from './work-window/work-window.js';
@@ -14,21 +16,18 @@ import './work-window-rooms/work-window-rooms.js';
 
 
 
-// Основные блоки
-const chat = document.getElementById('chat'),
-mainMenu = document.getElementById('main-menu'),
-workspace = document.getElementById('workspace');
-// Элементы основных блоков
-const openedRooms = document.getElementById('opened-rooms'),
-workspaceBackBtn = document.getElementById('back-btn'),
-newRoomBtn = document.getElementById('new-room-btn');
-// Топы и настройки
-const roomsTab = document.getElementById('rooms'),
-settingsTab = document.getElementById('settings');
 
-
-
-
+// // Основные блоки
+// const chat = document.getElementById('chat'),
+// mainMenu = document.getElementById('main-menu'),
+// workspace = document.getElementById('workspace');
+// // Элементы основных блоков
+// const openedRooms = document.getElementById('opened-rooms'),
+// workspaceBackBtn = document.getElementById('back-btn'),
+// newRoomBtn = document.getElementById('new-room-btn');
+// // Топы и настройки
+// const roomsTab = document.getElementById('rooms'),
+// settingsTab = document.getElementById('settings');
 
 
 
@@ -60,6 +59,8 @@ server.onmessage = function(event) {
     document.cookie = `ID=${data.user.id}`;
   }
   if (data.notice == 'joinRoom') {
+    // Проверим на ошибку, если тру, тогда выведем в консоль описание ошибки
+    if (data.error) return console.log(data.data.description);
     data = data.data;
     // console.log(data);
     const roomID = data.id,
@@ -69,7 +70,7 @@ server.onmessage = function(event) {
   }
   if (data.notice == 'roomBuffer') {
     data = data.data;
-    // console.log(data);
+    console.log(data);
     const roomID = data.room.id,
           name = data.room.name,
           messages = data.messages;
@@ -77,9 +78,9 @@ server.onmessage = function(event) {
     if (!document.getElementById(`window-${roomID}`)) {
       renderTab(roomID, name);
       renderWorkWindow(roomID);
-      for (let i = 0; i < messages.length; i++) {
-        renderMessage(roomID, messages[i]);
-      }
+    }
+    for (let i = 0; i < messages.length; i++) {
+      renderMessage(roomID, messages[i]);
     }
   }
   if (data.notice == 'sendMessage') {
@@ -101,9 +102,6 @@ function getCookie(name) {
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-
-
-
 
 
 
