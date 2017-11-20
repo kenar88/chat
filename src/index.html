@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Chat</title>
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+
+  <body>
+    <section class="chat" id="chat">
+      <nav class="main-menu  main-menu--active" id="main-menu">
+        <section class="tab  main-menu__rooms  tab--active" id="rooms" data-type="tab" data-id="rooms">
+          <img class="tab__img" src="img/group.svg" alt="img">
+          <h3 class="tab__title">Rooms</h3>
+        </section>
+
+        <h2 class="main-menu__title">Opened rooms</h2>
+        <div class="main-menu__opened-rooms" id="opened-rooms">
+        </div>
+
+        <section class="tab  main-menu__settings" data-type="tab" id="settings" data-id="settings">
+          <img class="tab__img" src="img/settings.svg" alt="img">
+          <h3 class="tab__title">Settings</h3>
+        </section>
+      </nav>
+
+      <section class="workspace" id="workspace">
+        <button class="workspace__back-btn" id="back-btn" type="button">Back</button>
+
+        <section class="window  rooms  window--active" id="window-rooms" data-type="window" data-id="rooms">
+          <header class="window__header">
+            <h2 class="window__title">Rooms</h2>
+            <button class="rooms__new-room-btn" id="new-room-btn">New room</button>
+          </header>
+          <section class="window__content" id="window-content">
+          </section>
+        </section>
+
+        <section class="window  settings" id="window-settings" data-type="window" data-id="settings">
+          <header class="window__header">
+            <h2 class="window__title">Settings</h2>
+          </header>
+          <section class="window__content" id="window-content">
+          </section>
+        </section>
+      </section>
+    </section>
+
+    <script src="js/index.js"></script>
+  </body>
+</html>

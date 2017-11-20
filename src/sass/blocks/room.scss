@@ -1,0 +1,21 @@
+.room {
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.room--opened {
+  background-color: lightcoral;
+}
+
+.room__img {
+  border: 1px solid #fff;
+  width: 48px;
+  height: 48px;
+}
+
+.room__title {
+  margin: 0;
+  padding: 0;
+}

@@ -1,0 +1,10 @@
+.chat {
+  height: 100vh;
+  display: flex;
+}
+
+@media ($mobile-widths-only) {
+  .chat {
+    max-height: 100vh;
+  }
+}

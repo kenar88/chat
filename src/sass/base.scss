@@ -1,0 +1,25 @@
+html {
+  box-sizing: border-box;
+  min-width: 320px;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #fff;
+  // background: linear-gradient(to right, #22202d, #494458);
+  background-color: rgb(94, 82, 82);
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
