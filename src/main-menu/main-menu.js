@@ -1,4 +1,4 @@
-import './menu.scss';
+import './main-menu.scss';
 import './tab/tab.js';
 
 import './group.svg'

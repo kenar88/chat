@@ -1,8 +1,8 @@
 import './index.html';
 import './style.scss';
 
-import './menu/menu.js';
-import renderTab from './menu/tab/tab.js';
+import './main-menu/main-menu.js';
+import renderTab from './main-menu/tab/tab.js';
 
 import './search-form/search-form.js';
 
