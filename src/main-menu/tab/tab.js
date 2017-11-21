@@ -1,5 +1,5 @@
 import './tab.scss';
-import './pic.svg'
+import './pic.svg';
 
 
 const openedRooms = document.getElementById('opened-rooms');

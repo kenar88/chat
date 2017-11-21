@@ -65,6 +65,7 @@ server.onmessage = function(event) {
     // console.log(data);
     const roomID = data.id,
           name = data.name;
+//    Menu.renderTab.apply(this, roomID, name);   //T1
     renderTab(roomID, name);
     renderWorkWindow(roomID);
   }
@@ -76,6 +77,8 @@ server.onmessage = function(event) {
           messages = data.messages;
     // Проверим, отрисована ли уже комната, чтобы не сделать это еще раз
     if (!document.getElementById(`window-${roomID}`)) {
+      
+//      Menu.renderTab.apply(this, roomID, name);  //T1    
       renderTab(roomID, name);
       renderWorkWindow(roomID);
     }

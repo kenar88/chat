@@ -5,7 +5,7 @@ import './room.scss';
 
 // Рендер комнат
 const renderRoom = (roomID, roomTitle) => {
-  const room = document.createElement('sections');
+  const room = document.createElement('section');
   room.id = roomID;
   room.className = 'room';
   room.dataset.type = 'room';
