@@ -18,10 +18,12 @@ import './work-window-rooms/work-window-rooms.js';
 const chat = document.getElementById('chat'),
 mainMenu = document.getElementById('main-menu'),
 workspace = document.getElementById('workspace');
+
 // Элементы основных блоков
 const openedRooms = document.getElementById('opened-rooms'),
 workspaceBackBtn = document.getElementById('back-btn'),
 newRoomBtn = document.getElementById('new-room-btn');
+
 // Топы и настройки
 const roomsTab = document.getElementById('rooms'),
 settingsTab = document.getElementById('settings');
@@ -64,6 +66,7 @@ server.onmessage = function(event) {
     // console.log(data);
     const roomID = data.id,
           name = data.name;
+//    Menu.renderTab.apply(this, roomID, name);   //T1
     renderTab(roomID, name);
     renderWorkWindow(roomID);
   }
@@ -75,6 +78,8 @@ server.onmessage = function(event) {
           messages = data.messages;
     // Проверим, отрисована ли уже комната, чтобы не сделать это еще раз
     if (!document.getElementById(`window-${roomID}`)) {
+      
+//      Menu.renderTab.apply(this, roomID, name);  //T1    
       renderTab(roomID, name);
       renderWorkWindow(roomID);
       for (let i = 0; i < messages.length; i++) {
