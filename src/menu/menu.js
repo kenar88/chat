@@ -1,5 +1,5 @@
 import './menu.scss';
-//import './tab/tab.js';
+import './tab/tab.js';
 
 import './group.svg'
 import './settings.svg'
