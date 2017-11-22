@@ -4,7 +4,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 
 
 const PATHS = {
@@ -16,6 +17,9 @@ module.exports = {
     entry: {
         'index': PATHS.source + '/script.js'
     },
+
+    devtool: 'source-map',
+
     output: {
         path: PATHS.build,
         filename: './js/script.js'
@@ -31,10 +35,22 @@ module.exports = {
         new OptimizeCssAssetsPlugin({
             cssProcessorOptions: { discardComments: {removeAll: true } }
         }),
-        // new UglifyJSPlugin()        
+        new UglifyJSPlugin({
+            sourceMap: true
+        })        
     ],
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                  loader: 'babel-loader',
+                  options: {
+                    presets: ['babel-preset-env']
+                  }
+                }
+            },
             // {
             //     test: /\.pug$/,
             //     loader: 'pug-loader',
