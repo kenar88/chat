@@ -1,11 +1,10 @@
 import './main-menu.scss';
-import './tab/tab.js';
 
 import './group.svg'
 import './settings.svg'
 
-import './tab/tab.scss';  //T1
-import './tab/pic.svg';  //T1
+import './tab.scss';  //T1
+import './pic.svg';  //T1
 
 import {server} from '../script.js';
 
@@ -19,8 +18,6 @@ const mainMenu = document.getElementById('main-menu'),
 function Menu(elem) {
   const self = this;
   
-                 //T1
-  
   this.renderTab = function(roomId, name) {
   const tab = document.createElement('section');
     tab.classList = 'tab';
@@ -33,7 +30,6 @@ function Menu(elem) {
     
     openedRooms.appendChild(tab);    
   };
-  
 
   this.activate = function(elem) {
     // Определим окно соответстувующее вкладке
@@ -68,11 +64,8 @@ const menu = new Menu(mainMenu);
 const newRoom = () => {
   const name = prompt('Enter thread name', '');
 
-  
-//чтобы не создавались треды из одних пробелов
-if ( !/\S/.test(name) ) {
- return; 
-}
+  //чтобы не создавались треды из одних пробелов
+  if (!/\S/.test(name) ) return;
   
   const data = {
     "method": "newRoom",

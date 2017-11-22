@@ -61,17 +61,6 @@ server.onmessage = function(event) {
     // console.log(data);
     document.cookie = `ID=${data.user.id}`;
   }
-  if (data.notice == 'joinRoom') {
-    // Проверим на ошибку, если тру, тогда выведем в консоль описание ошибки
-    if (data.error) return console.log(data.data.description);
-    data = data.data;
-    // console.log(data);
-    const roomID = data.room.id,
-          name = data.room.name;
-    
-    menu.renderTab(roomID, name);
-    renderWorkWindow(roomID);
-  }
   if (data.notice == 'roomBuffer') {
     data = data.data;
     // console.log(data);
@@ -95,6 +84,9 @@ server.onmessage = function(event) {
     const roomID = data.room.id;
     const message = data.message;
     renderMessage(roomID, message);
+  }
+  if (data.notice == 'topRooms') {
+    console.log(data);
   }
 };
 
