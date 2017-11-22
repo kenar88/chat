@@ -4,16 +4,16 @@ import './tab/tab.js';
 import './group.svg'
 import './settings.svg'
 
-//import './tab/tab.scss';  //T1
-//import './tab/pic.svg';  //T1
+import './tab/tab.scss';  //T1
+import './tab/pic.svg';  //T1
 
 import {server} from '../script.js';
 
 // Основные блоки
 const mainMenu = document.getElementById('main-menu'),
       workspace = document.getElementById('workspace'),
-      newRoomBtn = document.getElementById('new-room-btn');
-//      openedRooms = document.getElementById('opened-rooms'); //Т1
+      newRoomBtn = document.getElementById('new-room-btn'),
+      openedRooms = document.getElementById('opened-rooms'); //Т1
 
 
 function Menu(elem) {
@@ -21,20 +21,18 @@ function Menu(elem) {
   
                  //T1
   
-//  this.renderTab = function(roomId, name) {
-//  const tab = document.createElement('section');
-//    tab.classList = 'tab';
-//    tab.dataset.type = 'tab';
-//    tab.dataset.id = roomId;
-//    tab.dataset.title = name;
-//    tab.innerHTML = `
-//    <img class="tab__img" src="img/pic.svg" alt="logo room">
-//    <h3 class="tab__title">${name}</h3>`;
-//    
-//    openedRooms.appendChild(tab);
-// 
-//    
-//  };
+  this.renderTab = function(roomId, name) {
+  const tab = document.createElement('section');
+    tab.classList = 'tab';
+    tab.dataset.type = 'tab';
+    tab.dataset.id = roomId;
+    tab.dataset.title = name;
+    tab.innerHTML = `
+    <img class="tab__img" src="img/pic.svg" alt="logo room">
+    <h3 class="tab__title">${name}</h3>`;
+    
+    openedRooms.appendChild(tab);    
+  };
   
 
   this.activate = function(elem) {
@@ -63,13 +61,19 @@ function Menu(elem) {
   });
 }
 // И сразу создадим главное меню чата
-new Menu (mainMenu);
+const menu = new Menu(mainMenu);
 
 
 // Создание комнаты
 const newRoom = () => {
   const name = prompt('Enter thread name', '');
 
+  
+//чтобы не создавались треды из одних пробелов
+if ( !/\S/.test(name) ) {
+ return; 
+}
+  
   const data = {
     "method": "newRoom",
     "data": {
@@ -84,3 +88,5 @@ const newRoom = () => {
 };
 // Повесим обработчик на кнопку создания треда
 newRoomBtn.addEventListener('click', newRoom);
+
+export default menu;

@@ -2,7 +2,10 @@ import './index.html';
 import './style.scss';
 
 import './main-menu/main-menu.js';
-import renderTab from './main-menu/tab/tab.js';
+//НА ВЫПИЛ
+//import renderTab from './main-menu/tab/tab.js';
+
+import menu from './main-menu/main-menu.js';
 
 import './search-form/search-form.js';
 
@@ -65,8 +68,8 @@ server.onmessage = function(event) {
     // console.log(data);
     const roomID = data.room.id,
           name = data.room.name;
-//    Menu.renderTab.apply(this, roomID, name);   //T1
-    renderTab(roomID, name);
+    
+    menu.renderTab(roomID, name);
     renderWorkWindow(roomID);
   }
   if (data.notice == 'roomBuffer') {
@@ -78,8 +81,8 @@ server.onmessage = function(event) {
     // Проверим, отрисована ли уже комната, чтобы не сделать это еще раз
     if (!document.getElementById(`window-${roomID}`)) {
       
-//      Menu.renderTab.apply(this, roomID, name);  //T1    
-      renderTab(roomID, name);
+   
+      menu.renderTab(roomID, name);
       renderWorkWindow(roomID);
     }
     for (let i = 0; i < messages.length; i++) {
