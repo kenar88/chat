@@ -68,13 +68,13 @@ server.onmessage = function(event) {
     // console.log(data);
     const roomID = data.room.id,
           name = data.room.name;
-
+    
     menu.renderTab(roomID, name);
     renderWorkWindow(roomID);
   }
   if (data.notice == 'roomBuffer') {
     data = data.data;
-    console.log(data);
+    // console.log(data);
     const roomID = data.room.id,
           name = data.room.name,
           messages = data.messages;
@@ -91,7 +91,7 @@ server.onmessage = function(event) {
   }
   if (data.notice == 'sendMessage') {
     data = data.data;
-    console.log(data);
+    // console.log(data);
     const roomID = data.room.id;
     const message = data.message;
     renderMessage(roomID, message);
