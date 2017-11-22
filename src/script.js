@@ -16,7 +16,7 @@ import renderMessage from './message/message.js';
 
 import './work-window-rooms/work-window-rooms.js';
 
-
+import Top from './top/top.js';
 
 
 
@@ -56,11 +56,13 @@ server.onclose = function(event) {
 server.onmessage = function(event) {
   let data = JSON.parse(event.data);
   console.log(data);
+
   if (data.notice == 'userInfo') {
     data = data.data;
     // console.log(data);
     document.cookie = `ID=${data.user.id}`;
   }
+
   if (data.notice == 'roomBuffer') {
     data = data.data;
     // console.log(data);
@@ -69,8 +71,6 @@ server.onmessage = function(event) {
           messages = data.messages;
     // Проверим, отрисована ли уже комната, чтобы не сделать это еще раз
     if (!document.getElementById(`window-${roomID}`)) {
-      
-   
       menu.renderTab(roomID, name);
       renderWorkWindow(roomID);
     }
@@ -78,15 +78,40 @@ server.onmessage = function(event) {
       renderMessage(roomID, messages[i]);
     }
   }
+
   if (data.notice == 'sendMessage') {
     data = data.data;
     // console.log(data);
-    const roomID = data.room.id;
-    const message = data.message;
+    const roomID = data.room.id,
+          message = data.message;
     renderMessage(roomID, message);
   }
+
   if (data.notice == 'topRooms') {
-    console.log(data);
+    data = data.data;
+    // console.log(data);
+    const roomsContent = document.getElementById('rooms-content'),
+          type = data.type,
+          rooms = data.rooms;
+
+    // Создадим объект и элемент топа
+    let top = new Top(data),
+        topElem = top.renderTop(type);
+    // Удалим старый топ, перед тем как рендерить новый
+    if (document.getElementById(type)) {
+      roomsContent.removeChild(document.getElementById(type));
+    }
+    roomsContent.append(topElem);
+    // Зададим поведение топа
+    top.handlerTop(topElem);
+    // Рендерим комнаты в топе
+    for (let i = 0; i < rooms.length; i++) {
+      let id = rooms[i].room.id,
+          name = rooms[i].room.name,
+          room = top.renderRoom(id, name);
+
+      topElem.append(room);
+    }
   }
 };
 
