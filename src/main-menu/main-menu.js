@@ -17,13 +17,15 @@ const mainMenu = document.getElementById('main-menu'),
   newRoomBtn = document.getElementById('new-room-btn'),
   openedRooms = document.getElementById('opened-rooms');
 
-//в конструктор добавил ещё 1 параметр(кнопку создания комнаты)
-function Menu(elem, btn) {
+
+function Menu(elem) {
   const self = this;
-
-  this.btn = btn;
-
-  this.btn.onclick = () => this.newRoom(); //тут теперь обработчик клика по кнопке создания комнаты
+  
+  elem.addEventListener('click', function(event) {
+    const target = event.target;
+    if (target.id != 'new-room-btn') return;
+    self.newRoom();
+  });
 
   this.newRoom = function () {
     const name = prompt('Enter thread name', '');
@@ -87,7 +89,7 @@ function Menu(elem, btn) {
   });
 }
 // И сразу создадим главное меню чата
-const menu = new Menu(mainMenu, newRoomBtn);
+const menu = new Menu(mainMenu);
 
 
 
