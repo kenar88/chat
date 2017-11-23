@@ -13,14 +13,14 @@ import {
 
 // Основные блоки
 const mainMenu = document.getElementById('main-menu'),
-      workspace = document.getElementById('workspace'),
-      newRoomBtn = document.getElementById('new-room-btn'),
-      openedRooms = document.getElementById('opened-rooms');
+  workspace = document.getElementById('workspace'),
+  newRoomBtn = document.getElementById('new-room-btn'),
+  openedRooms = document.getElementById('opened-rooms');
 
 
 function Menu(elem) {
-  const self = this;  
-  
+  const self = this;
+
 
   this.newRoom = function () {
     const name = prompt('Enter thread name', '');
@@ -40,6 +40,10 @@ function Menu(elem) {
 
 
   this.renderTab = function (roomId, name) {
+    function closeWindow(e) {
+      console.log(e);
+    }
+
     const tab = document.createElement('section');
     tab.classList = 'tab';
     tab.dataset.type = 'tab';
@@ -47,18 +51,30 @@ function Menu(elem) {
     tab.dataset.title = name;
     tab.innerHTML = `
     <img class="tab__img" src="img/pic.svg" alt="logo room">
-    <h3 class="tab__title">${name}</h3>`;
+    <h3 class="tab__title">${name}</h3>
+    <button type="button" data-type="tab-remove">X</button>`;
 
     openedRooms.appendChild(tab);
   };
 
+  this.closeTab = function (target) {
+    const roomId = target.parentElement.dataset.id;
+    if (target.parentElement.classList.contains('tab--active')) {
+      document.querySelector('.window--active').classList.remove('window--active');
+      document.querySelector('.tab--active').classList.remove('tab--active');
+    }
+    target.parentElement.remove();
+    document.getElementById(`window-${roomId}`).remove();
+  }
 
   this.activate = function (elem) {
     // Определим окно соответстувующее вкладке
     const workWindow = document.getElementById(`window-${elem.dataset.id}`);
     // Снимем класс '--active' с активного окна и вкладки
-    document.querySelector('.window--active').classList.remove('window--active');
-    document.querySelector('.tab--active').classList.remove('tab--active');
+    if (document.querySelectorAll('.tab--active').length) {
+      document.querySelector('.window--active').classList.remove('window--active');
+      document.querySelector('.tab--active').classList.remove('tab--active');
+    }
     // Добавим класс '--active' окну и вкладке по которой кликаем
     elem.classList.add(`${elem.dataset.type}--active`);
     workWindow.classList.add(`${workWindow.dataset.type}--active`);
@@ -72,6 +88,10 @@ function Menu(elem) {
     let target = event.target;
     // Найдем необходимый элемент
     for (target; target != this; target = target.parentElement) {
+      if (target.dataset.type == 'tab-remove') {
+        self.closeTab(target);
+        return;
+      }
       if (target.dataset.type == 'tab') {
         self.activate(target);
       }
