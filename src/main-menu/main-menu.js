@@ -19,13 +19,8 @@ const mainMenu = document.getElementById('main-menu'),
 
 
 function Menu(elem) {
-  const self = this;
+  const self = this;  
   
-  elem.addEventListener('click', function(event) {
-    const target = event.target;
-    if (target.id != 'new-room-btn') return;
-    self.newRoom();
-  });
 
   this.newRoom = function () {
     const name = prompt('Enter thread name', '');
@@ -80,6 +75,10 @@ function Menu(elem) {
   // Добавим отслеживание клика всему главному меню
   elem.addEventListener('click', function (event) {
     let target = event.target;
+    if (target.id == 'new-room-btn') {
+    self.newRoom();
+    }
+    
     // Найдем необходимый элемент
     for (target; target != this; target = target.parentElement) {
       if (target.dataset.type == 'tab') {
