@@ -4,25 +4,51 @@ import './tab/tab.js';
 import './group.svg'
 import './settings.svg'
 
-import './tab/tab.scss';  //T1
-import './tab/pic.svg';  //T1
+import './tab/tab.scss';
+import './tab/pic.svg';
 
-import {server} from '../script.js';
+import {
+  server
+} from '../script.js';
 
 // Основные блоки
 const mainMenu = document.getElementById('main-menu'),
-      workspace = document.getElementById('workspace'),
-      newRoomBtn = document.getElementById('new-room-btn'),
-      openedRooms = document.getElementById('opened-rooms'); //Т1
+  workspace = document.getElementById('workspace'),
+  newRoomBtn = document.getElementById('new-room-btn'),
+  openedRooms = document.getElementById('opened-rooms');
 
-
-function Menu(elem) {
+//в конструктор добавил ещё 1 параметр(кнопку создания комнаты)
+function Menu(elem, btn) {
   const self = this;
-  
-                 //T1
-  
-  this.renderTab = function(roomId, name) {
-  const tab = document.createElement('section');
+
+  this.btn = btn;
+
+  this.btn.onclick = () => this.newRoom(); //тут теперь обработчик клика по кнопке создания комнаты
+
+  this.newRoom = function () {
+    const name = prompt('Enter thread name', '');
+
+    //чтобы не создавались треды из одних пробелов(возможно уже не актуально)
+    //if ( !/\S/.test(name) ) {
+    // return; 
+    //}
+    const data = {
+      "method": "newRoom",
+      "data": {
+        "room": {
+          "name": name
+        }
+      }
+    }
+
+    server.send(JSON.stringify(data));
+
+  };
+
+
+
+  this.renderTab = function (roomId, name) {
+    const tab = document.createElement('section');
     tab.classList = 'tab';
     tab.dataset.type = 'tab';
     tab.dataset.id = roomId;
@@ -30,12 +56,12 @@ function Menu(elem) {
     tab.innerHTML = `
     <img class="tab__img" src="img/pic.svg" alt="logo room">
     <h3 class="tab__title">${name}</h3>`;
-    
-    openedRooms.appendChild(tab);    
-  };
-  
 
-  this.activate = function(elem) {
+    openedRooms.appendChild(tab);
+  };
+
+
+  this.activate = function (elem) {
     // Определим окно соответстувующее вкладке
     const workWindow = document.getElementById(`window-${elem.dataset.id}`);
     // Снимем класс '--active' с активного окна и вкладки
@@ -48,9 +74,9 @@ function Menu(elem) {
     mainMenu.classList.remove('main-menu--active');
     workspace.classList.add('workspace--active');
   };
-  
+
   // Добавим отслеживание клика всему главному меню
-  elem.addEventListener('click', function(event) {
+  elem.addEventListener('click', function (event) {
     let target = event.target;
     // Найдем необходимый элемент
     for (target; target != this; target = target.parentElement) {
@@ -61,32 +87,9 @@ function Menu(elem) {
   });
 }
 // И сразу создадим главное меню чата
-const menu = new Menu(mainMenu);
+const menu = new Menu(mainMenu, newRoomBtn);
 
 
-// Создание комнаты
-const newRoom = () => {
-  const name = prompt('Enter thread name', '');
 
-  
-//чтобы не создавались треды из одних пробелов
-if ( !/\S/.test(name) ) {
- return; 
-}
-  
-  const data = {
-    "method": "newRoom",
-    "data": {
-      "room": {
-        "name": name
-      }
-    }
-  }
-
-  server.send(JSON.stringify(data));
-  
-};
-// Повесим обработчик на кнопку создания треда
-newRoomBtn.addEventListener('click', newRoom);
 
 export default menu;

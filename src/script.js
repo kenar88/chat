@@ -2,8 +2,6 @@ import './index.html';
 import './style.scss';
 
 import './main-menu/main-menu.js';
-//НА ВЫПИЛ
-//import renderTab from './main-menu/tab/tab.js';
 
 import menu from './main-menu/main-menu.js';
 
