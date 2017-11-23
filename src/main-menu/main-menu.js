@@ -13,9 +13,9 @@ import {
 
 // Основные блоки
 const mainMenu = document.getElementById('main-menu'),
-  workspace = document.getElementById('workspace'),
-  newRoomBtn = document.getElementById('new-room-btn'),
-  openedRooms = document.getElementById('opened-rooms');
+      workspace = document.getElementById('workspace'),
+      newRoomBtn = document.getElementById('new-room-btn'),
+      openedRooms = document.getElementById('opened-rooms');
 
 
 function Menu(elem) {
@@ -25,10 +25,6 @@ function Menu(elem) {
   this.newRoom = function () {
     const name = prompt('Enter thread name', '');
 
-    //чтобы не создавались треды из одних пробелов(возможно уже не актуально)
-    //if ( !/\S/.test(name) ) {
-    // return; 
-    //}
     const data = {
       "method": "newRoom",
       "data": {
@@ -39,7 +35,6 @@ function Menu(elem) {
     }
 
     server.send(JSON.stringify(data));
-
   };
 
 
@@ -75,14 +70,13 @@ function Menu(elem) {
   // Добавим отслеживание клика всему главному меню
   elem.addEventListener('click', function (event) {
     let target = event.target;
-    if (target.id == 'new-room-btn') {
-    self.newRoom();
-    }
-    
     // Найдем необходимый элемент
     for (target; target != this; target = target.parentElement) {
       if (target.dataset.type == 'tab') {
         self.activate(target);
+      }
+      if (target.id == 'new-room-btn') {
+        self.newRoom();
       }
     }
   });
