@@ -1,1 +1,0 @@
-import './work-window-rooms.scss';

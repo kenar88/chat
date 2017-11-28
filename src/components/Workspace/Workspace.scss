@@ -1,28 +1,28 @@
-@import "../variables";
+@import "variables.scss";
 
-.workspace {
-  border: 1px solid green;
+.Workspace {
+  border: 2px solid green;
   position: relative;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-.workspace__back-btn {
+.Workspace__back-btn {
   display: none;
 }
 
 @media ($mobile-widths-only) {
-  .workspace {
+  .Workspace {
     display: none;
   }
 
-  .workspace--active {
+  .Workspace--active {
     display: flex;
     width: 100vw;
   }
 
-  .workspace__back-btn {
+  .Workspace__back-btn {
     display: block;
     position: sticky;
     top: 0;

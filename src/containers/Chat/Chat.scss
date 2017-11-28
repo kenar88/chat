@@ -1,0 +1,12 @@
+@import "variables.scss";
+
+.Chat {
+  height: 100vh;
+  display: flex;
+}
+
+@media ($mobile-widths-only) {
+  .Chat {
+    max-height: 100vh;
+  }
+}

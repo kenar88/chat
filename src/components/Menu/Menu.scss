@@ -1,48 +1,48 @@
-@import "../variables";
+@import "variables.scss";
 
-.main-menu {
-  border: 1px solid #000;
+.Menu {
+  border: 2px solid #000;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   width: 20%;
 }
 
-.main-menu__title {
+.Menu__title {
   margin: 0 0 0 0;
   padding: 0;
 }
 
-.main-menu__opened-rooms {
+.Menu__opened-rooms {
   border: 1px solid lightblue;
   // overflow-y: scroll;
 }
 
-.main-menu__rooms {
+.Menu__rooms {
 
 }
 
-.main-menu__new-room {
+.Menu__new-room {
   margin: auto 0 0 0;
 }
 
-.main-menu__settings {
+.Menu__settings {
   margin: 0 0 0 0;
 }
 
 @media ($mobile-widths-only) {
-  .main-menu {
+  .Menu {
     display: none;
   }
 
-  .main-menu--active {
+  .Menu--active {
     display: flex;
     width: 100vw;
   }
 }
 
 @media ($tablet-widths) {
-  .main-menu {
+  .Menu {
     width: 24%;
   }
 }
