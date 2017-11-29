@@ -7,9 +7,15 @@ import './Menu.css';
 class Menu extends Component {
   render() {
     return (
-      <section className="Menu">
+      <nav className="Menu">
         <p>I'm Menu.</p>
-      </section>
+
+        <h2 className="Menu__title">Opened rooms</h2>
+        <div className="Menu__opened-rooms">
+
+        </div>
+
+      </nav>
     );
   }
 }
