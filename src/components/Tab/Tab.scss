@@ -1,0 +1,25 @@
+.Tab {
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Tab--active {
+  background-color: lightcoral;
+}
+
+.Tab__img {
+  border: 2px solid #fff;
+  width: 48px;
+  height: 48px;
+}
+
+.Tab__name {
+  margin: 0;
+  padding: 0;
+}
+
+.Tab__close {
+  margin: 0 0 0 auto;
+}

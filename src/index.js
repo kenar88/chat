@@ -1,10 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+
+import chatApp from './reducers'
+import Chat from './components/Chat';
 
 import registerServiceWorker from './registerServiceWorker';
-import Chat from './Chat';
 
 import './index.css';
 
-ReactDOM.render(<Chat />, document.getElementById('root'));
+
+
+
+
+let store = createStore(chatApp);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Chat />
+  </Provider>,
+  document.getElementById('root')
+);
+
 registerServiceWorker();
