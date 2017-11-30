@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 // import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { reducer } from './reducers';
+import reducer from './reducers';
 import { initialUser, addRoom } from './actions';
 
 import Chat from './components/Chat';
@@ -25,12 +25,14 @@ const room = {
   ]
 };
 
-const initialState = {
-  ID: '',
-  rooms: []
-};
+// const initialState = {
+//   ID: '',
+//   rooms: []
+// };
 
-const store = createStore(reducer, initialState);
+console.log(reducer);
+// const store = createStore(reducer, initialState);
+const store = createStore(reducer);
 console.log(store.getState());
 
 store.dispatch(initialUser(id));
