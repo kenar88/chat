@@ -1,32 +1,13 @@
-const ADD_USER = 'ADD_USER';
-
-export const addUser = (id) => {
+export const initialUser = (id) => {
   return {
-    type: ADD_USER,
-    id: id
-  }
+    type: 'INITIAL_USER',
+    payload: id
+  };
 };
 
-const ADD_ROOM = 'ADD_ROOM';
-
-export const addRoom = (data) => {
-  data = data.data;
+export const addRoom = (room) => {
   return {
-    type: ADD_ROOM,
-    id: data.room.id,
-    name: data.room.name,
-    messages: data.messages
-  }
+    type: 'ADD_ROOM',
+    payload: room
+  };
 };
-
-// const data = {
-//   error: false,
-//   notice: "roomBuffer",
-//   data: {
-//     room: {
-//       id: "123",
-//       name: "qwe" 
-//     },
-//     messages: [{}, {}, {}]
-//   }
-// };
