@@ -36,7 +36,6 @@ const rooms = (state = [], action) => {
 const theme = (state = 'dark', action) => {
   switch (action.type) {
     case 'CHANGE_THEME':
-      console.log(state);
       return (state === 'dark') ? 'light' : 'dark';
 
     default:
