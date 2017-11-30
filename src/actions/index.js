@@ -11,3 +11,9 @@ export const addRoom = (room) => {
     payload: room
   };
 };
+
+export const changeTheme = (theme) => {
+  return {
+    type: 'CHANGE_THEME'
+  };
+};

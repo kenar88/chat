@@ -7,6 +7,9 @@ export const reducer = (state, action) => {
     case 'ADD_ROOM':
       return { ...state, rooms: state.rooms.concat(action.payload) }
 
+    case 'CHANGE_THEME':
+      return { ...state, theme: (state.theme === 'dark') ? 'light' : 'dark' }
+
     default: 
       return state;
   }
