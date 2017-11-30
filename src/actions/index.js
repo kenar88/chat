@@ -14,6 +14,7 @@ export const addRoom = (room) => {
 
 export const changeTheme = (theme) => {
   return {
-    type: 'CHANGE_THEME'
+    type: 'CHANGE_THEME',
+    payload: theme
   };
 };
