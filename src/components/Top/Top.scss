@@ -1,0 +1,24 @@
+@import "variables.scss";
+
+.Top {
+  border: 1px solid limegreen;
+  min-width: 60%;
+  flex-grow: 1;
+}
+
+.Top__title {
+  margin: 0;
+  padding: 0;
+}
+
+@media ($tablet-widths) {
+  .Top {
+    min-width: 45%;
+  }
+}
+
+@media ($desktop-widths) {
+  .Top {
+    min-width: 30%;
+  }
+}

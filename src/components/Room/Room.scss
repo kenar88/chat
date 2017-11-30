@@ -1,4 +1,4 @@
-.Tab {
+.Room {
   border: 2px solid #000;
   display: flex;
   align-items: center;
@@ -9,24 +9,21 @@
   cursor: pointer;
 }
 
-.Tab--active {
+.Room--active {
   background-color: lightcoral;
 }
 
-.Tab__img {
-  flex-shrink: 0;
+.Room__img {
   border: 2px solid #fff;
   width: 48px;
   height: 48px;
 }
 
-.Tab__name {
-  flex-grow: 1;
+.Room__name {
   margin: 0;
   padding: 0;
 }
 
-.Tab__close {
-  flex-shrink: 0;
+.Room__close {
   margin: 0 0 0 auto;
 }

@@ -1,0 +1,25 @@
+.MessageForm {
+  border: 2px solid lightseagreen;
+  position: sticky;
+  bottom: 0px;
+  margin: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.MessageForm__textarea {
+  flex-grow: 1;
+  // padding: 5px 0 5px 0;
+
+  font-family: "Verdana", "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+
+  resize: none;
+}
+
+.MessageForm__send {
+  flex-shrink: 0;
+  align-self: flex-end;
+}
