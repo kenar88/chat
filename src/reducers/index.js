@@ -20,9 +20,20 @@ const rooms = (state = [], action) => {
   }
 };
 
+const theme = (state = 'dark', action) => {
+  switch (action.type) {
+    case 'CHANGE_THEME':
+      return (state === 'dark') ? 'light' : 'dark';
+
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
     user,
-    rooms
+    rooms,
+    theme
 });
 
 export default reducer;

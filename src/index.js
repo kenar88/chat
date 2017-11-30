@@ -28,8 +28,6 @@ if (getCookie('ID')) {
 
 
 
-
-
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
