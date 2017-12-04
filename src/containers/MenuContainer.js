@@ -8,7 +8,7 @@ const getOpenedRooms = (rooms) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
+  // console.log(state);
   return {
     rooms: getOpenedRooms(state.rooms)
   }

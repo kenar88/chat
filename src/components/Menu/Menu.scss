@@ -5,30 +5,32 @@
   background-color: rgb(116, 116, 116);
   flex-shrink: 0;
   display: flex;
-  flex-direction: column;
-  width: 20%;
 }
 
-.Menu__title {
-  margin: 0 0 0 0;
-  padding: 0;
-}
+// .Menu__title {
+//   margin: 0 0 0 0;
+//   padding: 0;
+// }
 
 .Menu__opened-rooms {
   border: 1px solid lightblue;
-  // overflow-y: scroll;
 }
 
-.Menu__tops-rooms {
+.Menu__tops-rooms,
+.Menu__settings {
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
 
+  margin: 0 0 0 0;
+  color: #fff;
+  text-decoration: none;
+
+  cursor: pointer;
 }
 
 .Menu__new-room {
-  margin: auto 0 0 0;
-}
-
-.Menu__settings {
-  margin: 0 0 0 0;
+  margin: 0 0 0 auto;
 }
 
 @media ($mobile-widths-only) {

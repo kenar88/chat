@@ -1,7 +1,7 @@
 .Room {
   border: 2px solid #000;
   display: flex;
-  align-items: center;
+  // align-items: center;
 
   color: #fff;
   text-decoration: none;
@@ -14,9 +14,14 @@
 }
 
 .Room__img {
+  flex-shrink: 0;
   border: 2px solid #fff;
-  width: 48px;
-  height: 48px;
+  width: 96px;
+  height: 96px;
+}
+
+.Room__wrapper {
+  flex-grow: 1;
 }
 
 .Room__name {
@@ -24,6 +29,7 @@
   padding: 0;
 }
 
-.Room__close {
-  margin: 0 0 0 auto;
+.Room__descr {
+  margin: 0;
+  padding: 0;
 }

@@ -7,8 +7,12 @@ export const Room = (props) => {
   return (
     <Link className={`Room ${props.className}`} to={props.path}>
       <img className="Room__img" alt="Room"/>
-      <h3 className="Room__name">{props.name}</h3>
-      <button className="Room__close">[x]</button>
+      <div className="Room__wrapper">
+        <h3 className="Room__name">{props.name}</h3>
+        <p className="Room__descr">
+          First room!
+        </p>
+      </div>
     </Link>
   );
 };

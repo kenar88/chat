@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './reducers';
-import { initialUser } from './actions';
 
 import './server';
 import { getCookie } from './cookie';
@@ -18,13 +17,16 @@ import './index.css';
 
 
 // Store Redux'a
-// const store = createStore(reducer, initialState);
-const store = createStore(reducer);
+const initialState = {
+  user: {
+    id: getCookie('ID')
+  }
+};
 
-if (getCookie('ID')) {
-  store.dispatch(initialUser(getCookie('ID')));
-  // console.log(store.getState());
-}
+const store = createStore(reducer, initialState);
+// const store = createStore(reducer);
+
+
 
 
 
